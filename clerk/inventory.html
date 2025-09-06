@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Inventory | Galit Digital Printing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="d-flex flex-column flex-shrink-0 p-3 bg-white shadow" style="width: 280px; height: 100vh;">
+            <a href="../index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none">
+                <span class="fs-4 text-success">Clerk Portal</span>
+            </a>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link text-dark">
+                        <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="orders.html" class="nav-link text-dark">
+                        <i class="bi bi-list-check me-2"></i>All Orders
+                    </a>
+                </li>
+                <li>
+                    <a href="create_order.html" class="nav-link text-dark">
+                        <i class="bi bi-plus-circle me-2"></i>Create Job Order
+                    </a>
+                </li>
+                <li>
+                    <a href="ai_insights.html" class="nav-link text-dark">
+                        <i class="bi bi-robot me-2"></i>AI Recommendations
+                    </a>
+                </li>
+                <li>
+                    <a href="tasks.html" class="nav-link text-dark">
+                        <i class="bi bi-person-workspace me-2"></i>Assigned Tasks
+                    </a>
+                </li>
+                <li>
+                    <a href="inventory.html" class="nav-link active">
+                        <i class="bi bi-box-seam me-2"></i>Inventory
+                    </a>
+                </li>
+            </ul>
+            <hr>
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
+                    <img src="../assets/images/avatar-placeholder.png" alt="Clerk" width="32" height="32" class="rounded-circle me-2">
+                    <strong>Clerk Name</strong>
+                </a>
+                <ul class="dropdown-menu text-small shadow">
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="../index.html">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="container-fluid py-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="mb-0">Inventory</h2>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addItemModal">
+                        <i class="bi bi-plus-circle me-1"></i> Add Product
+                    </button>
+                    <button class="btn btn-primary" onclick="openAdjustSelected('add')">
+                        <i class="bi bi-boxes me-1"></i> Add Stock
+                    </button>
+                    <button class="btn btn-outline-secondary" onclick="openAdjustSelected('subtract')">
+                        <i class="bi bi-dash-circle me-1"></i> Subtract Stock
+                    </button>
+                </div>
+            </div>
+
+            <div class="card dashboard-card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle" id="inventoryTable">
+                            <thead>
+                                <tr>
+                                    <th style="width:36px;"></th>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Minimum</th>
+                                    <th>Unit</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inventoryTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Item Modal -->
+    <div class="modal fade" id="addItemModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addItemForm">
+                        <div class="mb-3">
+                            <label class="form-label">Product Name</label>
+                            <input type="text" class="form-control" id="addName" required>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label">Quantity</label>
+                                <input type="number" min="0" step="any" class="form-control" id="addQty" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Minimum</label>
+                                <input type="number" min="0" step="any" class="form-control" id="addMin" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Unit</label>
+                                <input type="text" class="form-control" id="addUnit" placeholder="pcs/roll/sheets" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="submitAddItem()">Add Product</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Item Modal -->
+    <div class="modal fade" id="editItemModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editItemForm">
+                        <input type="hidden" id="editIndex">
+                        <div class="mb-3">
+                            <label class="form-label">Product Name</label>
+                            <input type="text" class="form-control" id="editName" required>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label">Quantity</label>
+                                <input type="number" min="0" step="any" class="form-control" id="editQty" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Minimum</label>
+                                <input type="number" min="0" step="any" class="form-control" id="editMin" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Unit</label>
+                                <input type="text" class="form-control" id="editUnit" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="submitEditItem()">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Adjust Stock Modal -->
+    <div class="modal fade" id="adjustStockModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="adjustTitle">Adjust Stock</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-2 text-muted small" id="adjustItemName"></div>
+                    <div class="input-group">
+                        <span class="input-group-text" id="adjustPrefix">+</span>
+                        <input type="number" min="0" step="any" id="adjustAmount" class="form-control" placeholder="Amount">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="submitAdjustStock()">Apply</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const DEFAULT_INVENTORY = [
+            { name: 'Vinyl Roll (1m)', qty: 10, min: 5, unit: 'roll' },
+            { name: 'Tarpaulin Roll (1m)', qty: 6, min: 4, unit: 'roll' },
+            { name: 'Cardstock (250gsm)', qty: 1000, min: 400, unit: 'sheets' },
+            { name: 'Cyan Ink (500ml)', qty: 4, min: 2, unit: 'bottle' },
+            { name: 'Magenta Ink (500ml)', qty: 4, min: 2, unit: 'bottle' },
+            { name: 'Yellow Ink (500ml)', qty: 4, min: 2, unit: 'bottle' },
+            { name: 'Black Ink (500ml)', qty: 6, min: 3, unit: 'bottle' }
+        ];
+
+        function getInventory() {
+            if (!localStorage.getItem('inventory')) {
+                localStorage.setItem('inventory', JSON.stringify(DEFAULT_INVENTORY));
+            }
+            return JSON.parse(localStorage.getItem('inventory')) || [];
+        }
+
+        function saveInventory(items) {
+            localStorage.setItem('inventory', JSON.stringify(items));
+        }
+
+        function renderInventory() {
+            const tbody = document.getElementById('inventoryTableBody');
+            const items = getInventory();
+            tbody.innerHTML = items.map((item, index) => {
+                const statusBadge = item.qty <= item.min ? '<span class="badge bg-danger">Low</span>' : '<span class="badge bg-success">OK</span>';
+                return `
+                    <tr>
+                        <td><input class="form-check-input" type="radio" name="selectedItem" value="${index}"></td>
+                        <td>${item.name}</td>
+                        <td>${formatQty(item.qty)}</td>
+                        <td>${formatQty(item.min)}</td>
+                        <td>${item.unit}</td>
+                        <td>${statusBadge}</td>
+                        <td>
+                            <div class="btn-group btn-group-sm" role="group">
+                                <button class="btn btn-outline-secondary" onclick="openEdit(${index})"><i class="bi bi-pencil-square"></i></button>
+                                <button class="btn btn-outline-primary" onclick="openAdjust(${index}, 'add')"><i class="bi bi-plus"></i></button>
+                                <button class="btn btn-outline-secondary" onclick="openAdjust(${index}, 'subtract')"><i class="bi bi-dash"></i></button>
+                                <button class="btn btn-outline-danger" onclick="removeItem(${index})"><i class="bi bi-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function formatQty(q) {
+            const num = Number(q);
+            return Number.isInteger(num) ? num : Math.round(num * 100) / 100;
+        }
+
+        function submitAddItem() {
+            const name = document.getElementById('addName').value.trim();
+            const qty = parseFloat(document.getElementById('addQty').value);
+            const min = parseFloat(document.getElementById('addMin').value);
+            const unit = document.getElementById('addUnit').value.trim();
+            if (!name || isNaN(qty) || isNaN(min) || !unit) return alert('Please fill in all fields');
+
+            const items = getInventory();
+            items.push({ name, qty, min, unit });
+            saveInventory(items);
+            document.getElementById('addItemForm').reset();
+            bootstrap.Modal.getInstance(document.getElementById('addItemModal')).hide();
+            renderInventory();
+        }
+
+        function openEdit(index) {
+            const items = getInventory();
+            const item = items[index];
+            document.getElementById('editIndex').value = index;
+            document.getElementById('editName').value = item.name;
+            document.getElementById('editQty').value = item.qty;
+            document.getElementById('editMin').value = item.min;
+            document.getElementById('editUnit').value = item.unit;
+            new bootstrap.Modal(document.getElementById('editItemModal')).show();
+        }
+
+        function submitEditItem() {
+            const index = parseInt(document.getElementById('editIndex').value, 10);
+            const name = document.getElementById('editName').value.trim();
+            const qty = parseFloat(document.getElementById('editQty').value);
+            const min = parseFloat(document.getElementById('editMin').value);
+            const unit = document.getElementById('editUnit').value.trim();
+            if (!name || isNaN(qty) || isNaN(min) || !unit) return alert('Please fill in all fields');
+
+            const items = getInventory();
+            items[index] = { name, qty, min, unit };
+            saveInventory(items);
+            bootstrap.Modal.getInstance(document.getElementById('editItemModal')).hide();
+            renderInventory();
+        }
+
+        let adjustContext = { index: null, mode: 'add' };
+
+        function openAdjust(index, mode) {
+            adjustContext = { index, mode };
+            const items = getInventory();
+            const item = items[index];
+            document.getElementById('adjustItemName').textContent = `${item.name} — current ${formatQty(item.qty)} ${item.unit}`;
+            document.getElementById('adjustAmount').value = '';
+            document.getElementById('adjustPrefix').textContent = mode === 'add' ? '+' : '-';
+            document.getElementById('adjustTitle').textContent = mode === 'add' ? 'Add Stock' : 'Subtract Stock';
+            new bootstrap.Modal(document.getElementById('adjustStockModal')).show();
+        }
+
+        function openAdjustSelected(mode) {
+            const selected = document.querySelector('input[name="selectedItem"]:checked');
+            if (!selected) return alert('Please select a product first.');
+            openAdjust(parseInt(selected.value, 10), mode);
+        }
+
+        function submitAdjustStock() {
+            const amount = parseFloat(document.getElementById('adjustAmount').value);
+            if (isNaN(amount) || amount < 0) return alert('Enter a valid amount.');
+            const items = getInventory();
+            const item = items[adjustContext.index];
+            const delta = adjustContext.mode === 'add' ? amount : -amount;
+            item.qty = Math.max(0, Number(item.qty) + delta);
+            saveInventory(items);
+            bootstrap.Modal.getInstance(document.getElementById('adjustStockModal')).hide();
+            renderInventory();
+        }
+
+        function removeItem(index) {
+            if (!confirm('Remove this product?')) return;
+            const items = getInventory();
+            items.splice(index, 1);
+            saveInventory(items);
+            renderInventory();
+        }
+
+        document.addEventListener('DOMContentLoaded', renderInventory);
+    </script>
+</body>
+    
+</html>
+
+

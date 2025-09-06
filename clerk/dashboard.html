@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Clerk Dashboard | Galit Digital Printing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="d-flex flex-column flex-shrink-0 p-3 bg-white shadow" style="width: 280px; height: 100vh;">
+            <a href="../index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none">
+                <span class="fs-4 text-success">Clerk Portal</span>
+            </a>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link active">
+                        <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="orders.html" class="nav-link text-dark">
+                        <i class="bi bi-list-check me-2"></i>All Orders
+                    </a>
+                </li>
+                <li>
+                    <a href="create_order.html" class="nav-link text-dark">
+                        <i class="bi bi-plus-circle me-2"></i>Create Job Order
+                    </a>
+                </li>
+                <li>
+                    <a href="ai_insights.html" class="nav-link text-dark">
+                        <i class="bi bi-robot me-2"></i>AI Recommendations
+                    </a>
+                </li>
+                <li>
+                    <a href="tasks.html" class="nav-link text-dark">
+                        <i class="bi bi-person-workspace me-2"></i>Assigned Tasks
+                    </a>
+                </li>
+                <li>
+                    <a href="inventory.html" class="nav-link text-dark">
+                        <i class="bi bi-box-seam me-2"></i>Inventory
+                    </a>
+                </li>
+                <li>
+                    <a href="production_board.html" class="nav-link text-dark">
+                        <i class="bi bi-kanban me-2"></i>Production Board
+                    </a>
+                </li>
+            </ul>
+            <hr>
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
+                    <img src="../assets/images/avatar-placeholder.png" alt="Clerk" width="32" height="32" class="rounded-circle me-2">
+                    <strong>Clerk Name</strong>
+                </a>
+                <ul class="dropdown-menu text-small shadow">
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="../index.html">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="container-fluid py-4">
+            <h2 class="mb-4">Clerk Dashboard</h2>
+            
+            <!-- Priority Tasks -->
+            <div class="alert alert-warning" role="alert">
+                <h5><i class="bi bi-exclamation-triangle me-2"></i>Priority Actions Needed</h5>
+                <ul class="mb-0">
+                    <li>3 orders pending approval</li>
+                    <li>2 items in inventory below minimum stock</li>
+                    <li>1 urgent order needs immediate attention</li>
+                </ul>
+            </div>
+
+            <!-- Stats Overview -->
+            <div class="row g-4 mb-4">
+                <div class="col-md-3">
+                    <div class="card dashboard-card">
+                        <div class="card-body">
+                            <h6 class="card-subtitle mb-2 text-muted">Active Orders</h6>
+                            <div class="dashboard-stat text-primary">15</div>
+                            <small>4 need attention</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card dashboard-card">
+                        <div class="card-body">
+                            <h6 class="card-subtitle mb-2 text-muted">Today's Tasks</h6>
+                            <div class="dashboard-stat text-success">8</div>
+                            <small>3 completed</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card dashboard-card">
+                        <div class="card-body">
+                            <h6 class="card-subtitle mb-2 text-muted">Pending Approval</h6>
+                            <div class="dashboard-stat text-warning">3</div>
+                            <small>New orders</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card dashboard-card">
+                        <div class="card-body">
+                            <h6 class="card-subtitle mb-2 text-muted">Low Stock Items</h6>
+                            <div class="dashboard-stat text-danger">2</div>
+                            <small>Need reorder</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Orders Table -->
+            <div class="card dashboard-card mb-4">
+                <div class="card-header bg-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Recent Orders</h5>
+                        <a href="orders.html" class="btn btn-primary btn-sm">View All</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Service</th>
+                                    <th>Current Status</th>
+                                    <th>Due Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#2024-001</td>
+                                    <td>John Smith</td>
+                                    <td>Banner Printing</td>
+                                    <td><span class="badge bg-info">Initial Review</span></td>
+                                    <td>Today</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                                                Update Status
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#" onclick="updateStatus(this, 'Initial Review')">Initial Review</a></li>
+                                                <li><a class="dropdown-item" href="#" onclick="updateStatus(this, 'Design Phase')">Design Phase</a></li>
+                                                <li><a class="dropdown-item" href="#" onclick="updateStatus(this, 'Customer Review')">Customer Review</a></li>
+                                                <li><a class="dropdown-item" href="#" onclick="updateStatus(this, 'Revision')">Revision</a></li>
+                                                <li><a class="dropdown-item" href="#" onclick="updateStatus(this, 'Final Approval')">Final Approval</a></li>
+                                                <li><a class="dropdown-item" href="#" onclick="updateStatus(this, 'In Production')">In Production</a></li>
+                                                <li><a class="dropdown-item" href="#" onclick="updateStatus(this, 'Quality Check')">Quality Check</a></li>
+                                                <li><a class="dropdown-item" href="#" onclick="updateStatus(this, 'Ready for Pickup')">Ready for Pickup</a></li>
+                                                <li><a class="dropdown-item" href="#" onclick="updateStatus(this, 'Delivered')">Delivered</a></li>
+                                                <li><a class="dropdown-item" href="#" onclick="updateStatus(this, 'Cancelled')">Cancelled</a></li>
+                                            </ul>
+                                        </div>
+                                        <button class="btn btn-sm btn-info ms-1" onclick="viewOrderDetails(this)">View</button>
+                                    </td>
+                                </tr>
+                                <!-- Add more sample orders with different statuses -->
+                                <tr>
+                                    <td>#2024-002</td>
+                                    <td>Maria Garcia</td>
+                                    <td>Business Cards</td>
+                                    <td><span class="badge bg-primary">Design Phase</span></td>
+                                    <td>Tomorrow</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                                                Update Status
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#" onclick="updateStatus(this, 'Initial Review')">Initial Review</a></li>
+                                                <li><a class="dropdown-item" href="#" onclick="updateStatus(this, 'Design Phase')">Design Phase</a></li>
+                                                <li><a class="dropdown-item" href="#" onclick="updateStatus(this, 'Customer Review')">Customer Review</a></li>
+                                                <li><a class="dropdown-item" href="#" onclick="updateStatus(this, 'Revision')">Revision</a></li>
+                                                <li><a class="dropdown-item" href="#" onclick="updateStatus(this, 'Final Approval')">Final Approval</a></li>
+                                                <li><a class="dropdown-item" href="#" onclick="updateStatus(this, 'In Production')">In Production</a></li>
+                                                <li><a class="dropdown-item" href="#" onclick="updateStatus(this, 'Quality Check')">Quality Check</a></li>
+                                                <li><a class="dropdown-item" href="#" onclick="updateStatus(this, 'Ready for Pickup')">Ready for Pickup</a></li>
+                                                <li><a class="dropdown-item" href="#" onclick="updateStatus(this, 'Delivered')">Delivered</a></li>
+                                                <li><a class="dropdown-item" href="#" onclick="updateStatus(this, 'Cancelled')">Cancelled</a></li>
+                                            </ul>
+                                        </div>
+                                        <button class="btn btn-sm btn-info ms-1" onclick="viewOrderDetails(this)">View</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sales Input Section -->
+            <div class="card dashboard-card mb-4">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0"><i class="bi bi-cash-coin me-2"></i>Sales Log - Print & Xerox Transactions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label for="salesAmount" class="form-label">Sales Amount (₱)</label>
+                            <input type="number" class="form-control" id="salesAmount" placeholder="0.00" step="0.01" min="0">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="transactionType" class="form-label">Transaction Type</label>
+                            <select class="form-select" id="transactionType">
+                                <option value="print">Print</option>
+                                <option value="xerox">Xerox</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="customerInfo" class="form-label">Customer Info (Optional)</label>
+                            <input type="text" class="form-control" id="customerInfo" placeholder="Customer name or description">
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <button type="button" class="btn btn-success" onclick="logSales()">
+                                <i class="bi bi-plus-circle me-2"></i>Log Sales Transaction
+                            </button>
+                            <button type="button" class="btn btn-outline-info ms-2" onclick="viewTodaySales()">
+                                <i class="bi bi-eye me-2"></i>View Today's Sales
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pending Orders Review -->
+            <div class="card dashboard-card mb-4">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="bi bi-clipboard-check me-2"></i>Pending Orders Review</h5>
+                    <button class="btn btn-sm btn-outline-primary" onclick="refreshPendingOrders()" title="Refresh Orders">
+                        <i class="bi bi-arrow-clockwise"></i>
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div id="pendingOrdersContent">
+                        <div class="text-center text-muted">
+                            <i class="bi bi-hourglass-split me-2"></i>Loading pending orders...
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Today's Sales Summary -->
+            <div class="card dashboard-card mb-4" id="todaySalesCard" style="display: none;">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0"><i class="bi bi-graph-up me-2"></i>Today's Sales Summary</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <h6 class="text-muted">Total Sales</h6>
+                                <h4 class="text-success" id="totalSalesAmount">₱0.00</h4>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <h6 class="text-muted">Print Transactions</h6>
+                                <h4 class="text-primary" id="printCount">0</h4>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <h6 class="text-muted">Xerox Transactions</h6>
+                                <h4 class="text-info" id="xeroxCount">0</h4>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <h6 class="text-muted">Total Transactions</h6>
+                                <h4 class="text-dark" id="totalTransactions">0</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h6 class="mb-0">Recent Transactions:</h6>
+                            <button class="btn btn-sm btn-outline-warning" onclick="clearAllTodaySales()" title="Clear All Today's Sales">
+                                <i class="bi bi-trash3 me-1"></i>Clear All
+                            </button>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-sm" id="recentSalesTable">
+                                <thead>
+                                    <tr>
+                                        <th>Time</th>
+                                        <th>Type</th>
+                                        <th>Amount</th>
+                                        <th>Customer</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recentSalesBody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions and AI Insights -->
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card dashboard-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Quick Actions</h5>
+                            <div class="d-grid gap-2">
+                                <a href="create_order.html" class="btn btn-success">
+                                    <i class="bi bi-plus-circle me-2"></i>New Job Order
+                                </a>
+                                <a href="tasks.html" class="btn btn-info">
+                                    <i class="bi bi-list-check me-2"></i>View Tasks
+                                </a>
+                                <a href="inventory.html" class="btn btn-warning">
+                                    <i class="bi bi-box-seam me-2"></i>Check Inventory
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card dashboard-card">
+                        <div class="card-body">
+                            <h5 class="card-title">AI Insights</h5>
+                            <div class="ai-alert warning p-3 mb-2">
+                                <i class="bi bi-lightning me-2"></i>High volume expected today
+                            </div>
+                            <div class="ai-alert danger p-3">
+                                <i class="bi bi-exclamation-triangle me-2"></i>Cyan ink needs replacement
+                            </div>
+                            <a href="ai_insights.html" class="btn btn-outline-primary mt-3">View All Insights</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Details Modal -->
+    <div class="modal fade" id="orderDetailsModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Order Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h6>Order Information</h6>
+                            <p><strong>Order ID:</strong> <span id="modalOrderId"></span></p>
+                            <p><strong>Status:</strong> <span id="modalStatus"></span></p>
+                            <p><strong>Due Date:</strong> <span id="modalDueDate"></span></p>
+                            <p><strong>Created Date:</strong> <span id="modalCreatedDate"></span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Customer Information</h6>
+                            <p><strong>Name:</strong> <span id="modalCustomerName"></span></p>
+                            <p><strong>Email:</strong> <span id="modalCustomerEmail"></span></p>
+                            <p><strong>Phone:</strong> <span id="modalCustomerPhone"></span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h6>Service Details</h6>
+                            <p><strong>Service Type:</strong> <span id="modalServiceType"></span></p>
+                            <p><strong>Specifications:</strong></p>
+                            <ul id="modalSpecifications">
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h6>Order Timeline</h6>
+                            <div class="timeline" id="modalTimeline">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Payment Information</h6>
+                            <p><strong>Amount:</strong> <span id="modalAmount"></span></p>
+                            <p><strong>Payment Status:</strong> <span id="modalPaymentStatus"></span></p>
+                            <p><strong>Payment Method:</strong> <span id="modalPaymentMethod"></span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Additional Notes</h6>
+                            <p id="modalNotes"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Update Order</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/sales-data.js"></script>
+    <script>
+        function updateStatus(element, newStatus) {
+            const tr = element.closest('tr');
+            const statusBadge = tr.querySelector('.badge');
+            
+            // Update badge color based on status
+            statusBadge.className = 'badge ' + getStatusColor(newStatus);
+            statusBadge.textContent = newStatus;
+            
+            // Show notification
+            alert('Order status updated to: ' + newStatus);
+        }
+
+        function getStatusColor(status) {
+            const colors = {
+                'Initial Review': 'bg-info',
+                'Design Phase': 'bg-primary',
+                'Customer Review': 'bg-warning',
+                'Revision': 'bg-secondary',
+                'Final Approval': 'bg-success',
+                'In Production': 'bg-primary',
+                'Quality Check': 'bg-info',
+                'Ready for Pickup': 'bg-success',
+                'Delivered': 'bg-dark',
+                'Cancelled': 'bg-danger'
+            };
+            return colors[status] || 'bg-secondary';
+        }
+
+        function viewOrderDetails(button) {
+            const row = button.closest('tr');
+            const orderId = row.cells[0].textContent;
+            const customerName = row.cells[1].textContent;
+            const serviceType = row.cells[2].textContent;
+            const status = row.cells[3].textContent;
+            const dueDate = row.cells[4].textContent;
+
+            // Sample data - in real application, this would come from a database
+            const orderDetails = {
+                orderId: orderId,
+                customerName: customerName,
+                customerEmail: "customer@example.com",
+                customerPhone: "+63 912 345 6789",
+                serviceType: serviceType,
+                status: status,
+                dueDate: dueDate,
+                createdDate: "Mar 15, 2024",
+                amount: "₱2,500.00",
+                paymentStatus: "Paid",
+                paymentMethod: "Credit Card",
+                specifications: [
+                    "Size: 3ft x 6ft",
+                    "Material: Heavy-duty vinyl",
+                    "Print: Full color",
+                    "Finishing: With grommets",
+                    "Quantity: 2 pieces"
+                ],
+                timeline: [
+                    { date: "Mar 15, 2024", status: "Order Created" },
+                    { date: "Mar 16, 2024", status: "Payment Received" },
+                    { date: "Mar 17, 2024", status: "Design Started" },
+                    { date: "Mar 18, 2024", status: "Customer Review" }
+                ],
+                notes: "Customer requested rush delivery. Design must follow brand guidelines provided."
+            };
+
+            // Update modal content
+            document.getElementById('modalOrderId').textContent = orderDetails.orderId;
+            document.getElementById('modalStatus').textContent = orderDetails.status;
+            document.getElementById('modalDueDate').textContent = orderDetails.dueDate;
+            document.getElementById('modalCreatedDate').textContent = orderDetails.createdDate;
+            document.getElementById('modalCustomerName').textContent = orderDetails.customerName;
+            document.getElementById('modalCustomerEmail').textContent = orderDetails.customerEmail;
+            document.getElementById('modalCustomerPhone').textContent = orderDetails.customerPhone;
+            document.getElementById('modalServiceType').textContent = orderDetails.serviceType;
+            document.getElementById('modalAmount').textContent = orderDetails.amount;
+            document.getElementById('modalPaymentStatus').textContent = orderDetails.paymentStatus;
+            document.getElementById('modalPaymentMethod').textContent = orderDetails.paymentMethod;
+            document.getElementById('modalNotes').textContent = orderDetails.notes;
+
+            // Update specifications
+            const specList = document.getElementById('modalSpecifications');
+            specList.innerHTML = orderDetails.specifications
+                .map(spec => `<li>${spec}</li>`)
+                .join('');
+
+            // Update timeline
+            const timeline = document.getElementById('modalTimeline');
+            timeline.innerHTML = orderDetails.timeline
+                .map(item => `
+                    <div class="timeline-item">
+                        <div class="timeline-date">${item.date}</div>
+                        <div class="timeline-content">${item.status}</div>
+                    </div>
+                `)
+                .join('');
+
+            // Show modal
+            new bootstrap.Modal(document.getElementById('orderDetailsModal')).show();
+        }
+
+        // Sales Logging System using shared data manager
+        function logSales() {
+            const amount = parseFloat(document.getElementById('salesAmount').value);
+            const type = document.getElementById('transactionType').value;
+            const customer = document.getElementById('customerInfo').value;
+
+            if (!amount || amount <= 0) {
+                alert('Please enter a valid sales amount');
+                return;
+            }
+
+            const saleData = {
+                amount: amount,
+                type: type,
+                customer: customer || 'Walk-in Customer'
+            };
+
+            // Use the shared data manager
+            window.salesDataManager.addClerkSale(saleData);
+
+            // Clear form
+            document.getElementById('salesAmount').value = '';
+            document.getElementById('customerInfo').value = '';
+
+            // Show success message
+            alert(`Sales transaction logged successfully!\nAmount: ₱${amount.toFixed(2)}\nType: ${type.charAt(0).toUpperCase() + type.slice(1)}`);
+
+            // Update today's sales if visible
+            if (document.getElementById('todaySalesCard').style.display !== 'none') {
+                updateTodaySales();
+            }
+        }
+
+        function viewTodaySales() {
+            updateTodaySales();
+            document.getElementById('todaySalesCard').style.display = 'block';
+        }
+
+        function updateTodaySales() {
+            const todaySales = window.salesDataManager.getTodaySales().clerkSales;
+
+            const totalAmount = todaySales.reduce((sum, sale) => sum + sale.amount, 0);
+            const printCount = todaySales.filter(sale => sale.type === 'print').length;
+            const xeroxCount = todaySales.filter(sale => sale.type === 'xerox').length;
+
+            document.getElementById('totalSalesAmount').textContent = `₱${totalAmount.toFixed(2)}`;
+            document.getElementById('printCount').textContent = printCount;
+            document.getElementById('xeroxCount').textContent = xeroxCount;
+            document.getElementById('totalTransactions').textContent = todaySales.length;
+
+            // Update recent transactions table
+            const tbody = document.getElementById('recentSalesBody');
+            tbody.innerHTML = '';
+
+            todaySales.slice(-10).reverse().forEach((sale, index) => {
+                const row = tbody.insertRow();
+                row.insertCell(0).textContent = new Date(sale.timestamp).toLocaleTimeString();
+                row.insertCell(1).textContent = sale.type.charAt(0).toUpperCase() + sale.type.slice(1);
+                row.insertCell(2).textContent = `₱${sale.amount.toFixed(2)}`;
+                row.insertCell(3).textContent = sale.customer;
+                
+                // Add delete button
+                const actionsCell = row.insertCell(4);
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'btn btn-sm btn-outline-danger';
+                deleteBtn.innerHTML = '<i class="bi bi-trash"></i>';
+                deleteBtn.title = 'Delete Transaction';
+                deleteBtn.onclick = () => deleteTransaction(sale.id, sale.amount, sale.type);
+                actionsCell.appendChild(deleteBtn);
+            });
+        }
+
+        function deleteTransaction(saleId, amount, type) {
+            // Confirm deletion
+            const confirmMessage = `Are you sure you want to delete this ${type} transaction?\n\nAmount: ₱${amount.toFixed(2)}\n\nThis action cannot be undone.`;
+            
+            if (confirm(confirmMessage)) {
+                try {
+                    // Delete from sales data manager
+                    window.salesDataManager.deleteClerkSale(saleId);
+                    
+                    // Show success message
+                    alert(`Transaction deleted successfully!\nAmount: ₱${amount.toFixed(2)}\nType: ${type.charAt(0).toUpperCase() + type.slice(1)}`);
+                    
+                    // Refresh the sales summary
+                    updateTodaySales();
+                    
+                } catch (error) {
+                    console.error('Error deleting transaction:', error);
+                    alert('Error deleting transaction. Please try again.');
+                }
+            }
+        }
+
+        function clearAllTodaySales() {
+            const todaySales = window.salesDataManager.getTodaySales().clerkSales;
+            
+            if (todaySales.length === 0) {
+                alert('No transactions to clear.');
+                return;
+            }
+            
+            const totalAmount = todaySales.reduce((sum, sale) => sum + sale.amount, 0);
+            const confirmMessage = `Are you sure you want to clear ALL today's sales?\n\nTotal Transactions: ${todaySales.length}\nTotal Amount: ₱${totalAmount.toFixed(2)}\n\nThis action cannot be undone.`;
+            
+            if (confirm(confirmMessage)) {
+                try {
+                    // Clear all clerk sales for today
+                    const allClerkSales = window.salesDataManager.getClerkSales();
+                    const today = new Date().toDateString();
+                    const filteredSales = allClerkSales.filter(sale => sale.date !== today);
+                    localStorage.setItem('clerkSalesData', JSON.stringify(filteredSales));
+                    
+                    // Show success message
+                    alert(`All today's sales cleared successfully!\n\nCleared ${todaySales.length} transactions\nTotal Amount: ₱${totalAmount.toFixed(2)}`);
+                    
+                    // Refresh the sales summary
+                    updateTodaySales();
+                    
+                } catch (error) {
+                    console.error('Error clearing sales:', error);
+                    alert('Error clearing sales. Please try again.');
+                }
+            }
+        }
+
+        // Pending Orders Management
+        function refreshPendingOrders() {
+            const pendingOrders = window.salesDataManager.getPendingOrders();
+            const contentDiv = document.getElementById('pendingOrdersContent');
+            
+            if (pendingOrders.length === 0) {
+                contentDiv.innerHTML = `
+                    <div class="text-center text-muted py-4">
+                        <i class="bi bi-check-circle me-2"></i>
+                        No pending orders at the moment.
+                    </div>
+                `;
+                return;
+            }
+
+            let ordersHtml = '';
+            pendingOrders.forEach(order => {
+                const orderDate = new Date(order.timestamp).toLocaleDateString();
+                const orderTime = new Date(order.timestamp).toLocaleTimeString();
+                
+                ordersHtml += `
+                    <div class="card mb-3 border-warning">
+                        <div class="card-header bg-warning bg-opacity-10">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0">
+                                    <i class="bi bi-clock me-2"></i>Order ${order.order_id}
+                                </h6>
+                                <span class="badge bg-warning text-dark">Pending Review</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <h6>Customer Information</h6>
+                                    <p><strong>Name:</strong> ${order.customer_name}</p>
+                                    <p><strong>Email:</strong> ${order.customer_email || 'N/A'}</p>
+                                    <p><strong>Phone:</strong> ${order.customer_phone || 'N/A'}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>Order Details</h6>
+                                    <p><strong>Service:</strong> ${order.service_category}${order.service_name && order.service_name !== order.service_category ? ' - ' + order.service_name : ''}</p>
+                                    <p><strong>Size:</strong> ${order.size || 'N/A'}</p>
+                                    <p><strong>Quantity:</strong> ${order.quantity}</p>
+                                    <p><strong>Due Date:</strong> ${new Date(order.due_date).toLocaleDateString()}</p>
+                                </div>
+                            </div>
+                            <div class="row g-3 mt-2">
+                                <div class="col-12">
+                                    <h6>Additional Information</h6>
+                                    <p><strong>Instructions:</strong> ${order.instructions || 'None'}</p>
+                                    <p><strong>Delivery:</strong> ${order.delivery_preference === 'pickup' ? 'Store Pickup' : 'Delivery'}</p>
+                                    <p><strong>Files:</strong> ${order.files_count} file(s)</p>
+                                    <p><strong>Order Date:</strong> ${orderDate} at ${orderTime}</p>
+                                </div>
+                            </div>
+                            <div class="row g-3 mt-3">
+                                <div class="col-md-4">
+                                    <label class="form-label">Set Price (₱)</label>
+                                    <input type="number" class="form-control" id="price_${order.order_id}" placeholder="Enter price" min="0" step="0.01">
+                                </div>
+                                <div class="col-md-8">
+                                    <label class="form-label">Notes (Optional)</label>
+                                    <input type="text" class="form-control" id="notes_${order.order_id}" placeholder="Add notes for customer">
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <button class="btn btn-success me-2" onclick="approveOrder('${order.order_id}')">
+                                    <i class="bi bi-check-circle me-1"></i>Approve & Set Price
+                                </button>
+                                <button class="btn btn-outline-danger" onclick="rejectOrder('${order.order_id}')">
+                                    <i class="bi bi-x-circle me-1"></i>Reject Order
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            contentDiv.innerHTML = ordersHtml;
+        }
+
+        function approveOrder(orderId) {
+            const priceInput = document.getElementById(`price_${orderId}`);
+            const notesInput = document.getElementById(`notes_${orderId}`);
+            
+            const price = parseFloat(priceInput.value);
+            const notes = notesInput.value.trim();
+            
+            if (!price || price <= 0) {
+                alert('Please enter a valid price.');
+                priceInput.focus();
+                return;
+            }
+            
+            const confirmMessage = `Approve this order?\n\nOrder ID: ${orderId}\nPrice: ₱${price.toFixed(2)}\nNotes: ${notes || 'None'}\n\nThis will move the order to confirmed sales.`;
+            
+            if (confirm(confirmMessage)) {
+                try {
+                    const approvedOrder = window.salesDataManager.approvePendingOrder(orderId, price, notes);
+                    
+                    if (approvedOrder) {
+                        alert(`Order approved successfully!\n\nOrder ID: ${orderId}\nPrice: ₱${price.toFixed(2)}\n\nThe order has been moved to confirmed sales.`);
+                        refreshPendingOrders();
+                    } else {
+                        alert('Error approving order. Please try again.');
+                    }
+                } catch (error) {
+                    console.error('Error approving order:', error);
+                    alert('Error approving order. Please try again.');
+                }
+            }
+        }
+
+        function rejectOrder(orderId) {
+            const confirmMessage = `Reject this order?\n\nOrder ID: ${orderId}\n\nThis will remove the order from the system.`;
+            
+            if (confirm(confirmMessage)) {
+                try {
+                    window.salesDataManager.removePendingOrder(orderId);
+                    alert(`Order rejected and removed from the system.\n\nOrder ID: ${orderId}`);
+                    refreshPendingOrders();
+                } catch (error) {
+                    console.error('Error rejecting order:', error);
+                    alert('Error rejecting order. Please try again.');
+                }
+            }
+        }
+
+        // Load today's sales on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateTodaySales();
+            refreshPendingOrders();
+        });
+    </script>
+
+    <style>
+        /* Add this to your existing styles */
+        .timeline {
+            border-left: 2px solid #dee2e6;
+            padding: 0 20px;
+        }
+
+        .timeline-item {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -26px;
+            top: 5px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #0d6efd;
+        }
+
+        .timeline-date {
+            font-size: 0.875rem;
+            color: #6c757d;
+        }
+
+        .timeline-content {
+            margin-top: 5px;
+        }
+
+        /* Delete button styling */
+        .btn-outline-danger {
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-danger:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+        }
+
+        .btn-outline-warning {
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-warning:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(255, 193, 7, 0.3);
+        }
+
+        /* Table styling */
+        #recentSalesTable th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        #recentSalesTable td {
+            vertical-align: middle;
+        }
+
+        #recentSalesTable .btn {
+            margin: 0;
+        }
+    </style>
+</body>
+</html>

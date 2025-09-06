@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sales System Integration Test | Galit Digital Printing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; }
+        .test-card { border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container py-4">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center mb-4">
+                    <i class="bi bi-gear me-2"></i>Sales System Integration Test
+                </h1>
+                <p class="text-center text-muted mb-4">
+                    This page demonstrates the integration between Clerk Sales Input and Admin Analytics
+                </p>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Clerk Sales Simulation -->
+            <div class="col-md-6">
+                <div class="card test-card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="bi bi-person-workspace me-2"></i>Clerk Sales Input Simulation</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted">Simulate clerk logging Print & Xerox sales:</p>
+                        
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label for="testAmount" class="form-label">Sales Amount (₱)</label>
+                                <input type="number" class="form-control" id="testAmount" placeholder="0.00" step="0.01" min="0">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="testType" class="form-label">Transaction Type</label>
+                                <select class="form-select" id="testType">
+                                    <option value="print">Print</option>
+                                    <option value="xerox">Xerox</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="testCustomer" class="form-label">Customer Info</label>
+                            <input type="text" class="form-control" id="testCustomer" placeholder="Customer name or description">
+                        </div>
+                        
+                        <button type="button" class="btn btn-success w-100" onclick="testLogSales()">
+                            <i class="bi bi-plus-circle me-2"></i>Log Test Sales Transaction
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Analytics Simulation -->
+            <div class="col-md-6">
+                <div class="card test-card">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0"><i class="bi bi-graph-up me-2"></i>Admin Analytics View</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted">View real-time sales analytics:</p>
+                        
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <button class="btn btn-outline-primary w-100" onclick="refreshAnalytics()">
+                                    <i class="bi bi-arrow-clockwise me-2"></i>Refresh Analytics
+                                </button>
+                            </div>
+                            <div class="col-md-6">
+                                <button class="btn btn-outline-success w-100" onclick="addSampleData()">
+                                    <i class="bi bi-plus-circle me-2"></i>Add Sample Data
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="alert alert-info">
+                            <h6><i class="bi bi-info-circle me-2"></i>Current Sales Summary:</h6>
+                            <div id="salesSummary">
+                                <p class="mb-1">Print & Xerox: <span id="printXeroxTotal" class="fw-bold">₱0</span></p>
+                                <p class="mb-1">Tarpaulin: <span id="tarpaulinTotal" class="fw-bold">₱0</span></p>
+                                <p class="mb-1">Stickers: <span id="stickersTotal" class="fw-bold">₱0</span></p>
+                                <p class="mb-1">Shirts: <span id="shirtsTotal" class="fw-bold">₱0</span></p>
+                                <p class="mb-0">Others: <span id="othersTotal" class="fw-bold">₱0</span> 
+                                    <button class="btn btn-sm btn-outline-secondary ms-2" onclick="testOthersBreakdown()">
+                                        <i class="bi bi-eye"></i> View Breakdown
+                                    </button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Test Results -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card test-card">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0"><i class="bi bi-list-check me-2"></i>Test Results & Data</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <h6>Clerk Sales Data:</h6>
+                                <div id="clerkData" class="bg-light p-3 rounded">
+                                    <small class="text-muted">No data yet</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>All Sales Data:</h6>
+                                <div id="allData" class="bg-light p-3 rounded">
+                                    <small class="text-muted">No data yet</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-3">
+                            <button class="btn btn-outline-danger" onclick="clearAllData()">
+                                <i class="bi bi-trash me-2"></i>Clear All Test Data
+                            </button>
+                            <button class="btn btn-outline-primary ms-2" onclick="exportData()">
+                                <i class="bi bi-download me-2"></i>Export Data
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customer Ordering Test -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card test-card">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0"><i class="bi bi-cart me-2"></i>Customer Ordering System Test</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted">Test the complete customer ordering workflow:</p>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <button class="btn btn-outline-primary w-100" onclick="testCustomerOrder()">
+                                    <i class="bi bi-plus-circle me-2"></i>Simulate Customer Order
+                                </button>
+                            </div>
+                            <div class="col-md-6">
+                                <button class="btn btn-outline-success w-100" onclick="testTarpaulinOrder()">
+                                    <i class="bi bi-rulers me-2"></i>Test Tarpaulin Order
+                                </button>
+                            </div>
+                            <div class="col-md-6">
+                                <button class="btn btn-outline-warning w-100" onclick="testOthersOrder()">
+                                    <i class="bi bi-three-dots me-2"></i>Test Others Order
+                                </button>
+                            </div>
+                            <div class="col-md-6">
+                                <button class="btn btn-outline-info w-100" onclick="viewCustomerOrders()">
+                                    <i class="bi bi-eye me-2"></i>View Customer Orders
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="row mt-4">
+            <div class="col-12 text-center">
+                <a href="customer/place_order.html" class="btn btn-info me-2">
+                    <i class="bi bi-cart me-2"></i>Go to Customer Order Form
+                </a>
+                <a href="clerk/dashboard.html" class="btn btn-primary me-2">
+                    <i class="bi bi-person-workspace me-2"></i>Go to Clerk Dashboard
+                </a>
+                <a href="admin/dashboard.html" class="btn btn-success">
+                    <i class="bi bi-graph-up me-2"></i>Go to Admin Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/sales-data.js"></script>
+    <script>
+        function testLogSales() {
+            const amount = parseFloat(document.getElementById('testAmount').value);
+            const type = document.getElementById('testType').value;
+            const customer = document.getElementById('testCustomer').value;
+
+            if (!amount || amount <= 0) {
+                alert('Please enter a valid sales amount');
+                return;
+            }
+
+            const saleData = {
+                amount: amount,
+                type: type,
+                customer: customer || 'Test Customer'
+            };
+
+            window.salesDataManager.addClerkSale(saleData);
+
+            // Clear form
+            document.getElementById('testAmount').value = '';
+            document.getElementById('testCustomer').value = '';
+
+            alert(`Test sales transaction logged!\nAmount: ₱${amount.toFixed(2)}\nType: ${type.charAt(0).toUpperCase() + type.slice(1)}`);
+            
+            // Refresh analytics
+            refreshAnalytics();
+        }
+
+        function refreshAnalytics() {
+            const summary = window.salesDataManager.getCategorySummary();
+            
+            document.getElementById('printXeroxTotal').textContent = `₱${summary.printXerox.toLocaleString()}`;
+            document.getElementById('tarpaulinTotal').textContent = `₱${summary.tarpaulin.toLocaleString()}`;
+            document.getElementById('stickersTotal').textContent = `₱${summary.stickers.toLocaleString()}`;
+            document.getElementById('shirtsTotal').textContent = `₱${summary.shirts.toLocaleString()}`;
+            document.getElementById('othersTotal').textContent = `₱${summary.others.toLocaleString()}`;
+            
+            updateDataDisplay();
+        }
+
+        function addSampleData() {
+            const sampleSales = [
+                { category: 'tarpaulin', amount: 2500, customer: 'ABC Company', description: 'Large banner printing' },
+                { category: 'stickers', amount: 800, customer: 'XYZ Store', description: 'Vinyl stickers' },
+                { category: 'shirts', amount: 1200, customer: 'Event Organizer', description: 'Custom t-shirt printing' },
+                { category: 'tarpaulin', amount: 1800, customer: 'Local Business', description: 'Promotional banner' },
+                { category: 'others', amount: 600, customer: 'Walk-in Customer', description: 'Business cards' }
+            ];
+
+            sampleSales.forEach(sale => {
+                window.salesDataManager.addSale(sale);
+            });
+
+            alert('Sample data added successfully!');
+            refreshAnalytics();
+        }
+
+        function updateDataDisplay() {
+            const clerkData = window.salesDataManager.getClerkSales();
+            const allData = window.salesDataManager.getAllSales();
+            
+            document.getElementById('clerkData').innerHTML = clerkData.length > 0 
+                ? `<pre>${JSON.stringify(clerkData, null, 2)}</pre>`
+                : '<small class="text-muted">No clerk sales data</small>';
+                
+            document.getElementById('allData').innerHTML = allData.length > 0 
+                ? `<pre>${JSON.stringify(allData, null, 2)}</pre>`
+                : '<small class="text-muted">No sales data</small>';
+        }
+
+        function clearAllData() {
+            if (confirm('Are you sure you want to clear all test data?')) {
+                window.salesDataManager.clearAllData();
+                refreshAnalytics();
+                alert('All test data cleared!');
+            }
+        }
+
+        function exportData() {
+            window.salesDataManager.exportSalesData();
+        }
+
+        function testOthersBreakdown() {
+            const breakdown = window.salesDataManager.getOthersBreakdown();
+            
+            if (breakdown.length === 0) {
+                alert('No "Others" category data available. Please add sample data first.');
+                return;
+            }
+
+            let message = 'Others Category Breakdown:\n\n';
+            breakdown.forEach((item, index) => {
+                const rank = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `${index + 1}.`;
+                message += `${rank} ${item.service}: ₱${item.amount.toLocaleString()}\n`;
+            });
+
+            alert(message);
+        }
+
+        // Customer Ordering Test Functions
+        function testCustomerOrder() {
+            const orderData = {
+                category: 'shirts',
+                service: 'shirts',
+                amount: 500,
+                customer: 'Test Customer',
+                description: 'Order #2024-TEST: Shirts - Custom t-shirt printing',
+                orderData: {
+                    serviceCategory: 'shirts',
+                    quantity: 5,
+                    dueDate: '2024-04-01',
+                    instructions: 'Test order for customer ordering system',
+                    delivery: 'pickup',
+                    pricing: { basePrice: 500, additionalCharges: 0, total: 500 }
+                }
+            };
+
+            window.salesDataManager.addSale(orderData);
+            alert('Customer order simulated successfully!\nService: Shirts\nAmount: ₱500\nQuantity: 5 pieces');
+            refreshAnalytics();
+        }
+
+        function testTarpaulinOrder() {
+            const orderData = {
+                category: 'tarpaulin',
+                service: 'tarpaulin',
+                amount: 1550,
+                customer: 'Test Customer',
+                description: 'Order #2024-TEST: Tarpaulin - 3ft x 5ft banner',
+                orderData: {
+                    serviceCategory: 'tarpaulin',
+                    quantity: 2,
+                    dueDate: '2024-04-02',
+                    instructions: 'Test tarpaulin order with size specification',
+                    delivery: 'pickup',
+                    size: { width: 3, height: 5, description: '3ft x 5ft banner' },
+                    pricing: { basePrice: 800, additionalCharges: 750, total: 1550 }
+                }
+            };
+
+            window.salesDataManager.addSale(orderData);
+            alert('Tarpaulin order simulated successfully!\nService: Tarpaulin\nSize: 3ft x 5ft\nAmount: ₱1,550\nQuantity: 2 pieces');
+            refreshAnalytics();
+        }
+
+        function testOthersOrder() {
+            const orderData = {
+                category: 'others',
+                service: 'Acrylic Plates',
+                amount: 300,
+                customer: 'Test Customer',
+                description: 'Order #2024-TEST: Others - Acrylic Plates',
+                orderData: {
+                    serviceCategory: 'others',
+                    specificService: 'Acrylic Plates',
+                    quantity: 1,
+                    dueDate: '2024-04-03',
+                    instructions: 'Test others category order',
+                    delivery: 'pickup',
+                    pricing: { basePrice: 300, additionalCharges: 0, total: 300 }
+                }
+            };
+
+            window.salesDataManager.addSale(orderData);
+            alert('Others category order simulated successfully!\nService: Acrylic Plates\nAmount: ₱300\nQuantity: 1 piece');
+            refreshAnalytics();
+        }
+
+        function viewCustomerOrders() {
+            const allSales = window.salesDataManager.getAllSales();
+            const customerOrders = allSales.filter(sale => sale.customer === 'Test Customer' || sale.customer === 'Customer Order');
+            
+            if (customerOrders.length === 0) {
+                alert('No customer orders found. Please simulate some orders first.');
+                return;
+            }
+
+            let message = 'Customer Orders:\n\n';
+            customerOrders.forEach((order, index) => {
+                message += `${index + 1}. ${order.description}\n`;
+                message += `   Amount: ₱${order.amount.toLocaleString()}\n`;
+                message += `   Date: ${new Date(order.timestamp).toLocaleDateString()}\n\n`;
+            });
+
+            alert(message);
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            refreshAnalytics();
+        });
+    </script>
+</body>
+</html>

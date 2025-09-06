@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Recommendations | Galit Digital Printing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="d-flex">
+        <!-- Sidebar with same structure -->
+        <div class="d-flex flex-column flex-shrink-0 p-3 bg-white shadow" style="width: 280px; height: 100vh;">
+            <a href="../index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none">
+                <span class="fs-4 text-success">Clerk Portal</span>
+            </a>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link text-dark">
+                        <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="orders.html" class="nav-link text-dark">
+                        <i class="bi bi-list-check me-2"></i>All Orders
+                    </a>
+                </li>
+                <li>
+                    <a href="create_order.html" class="nav-link text-dark">
+                        <i class="bi bi-plus-circle me-2"></i>Create Job Order
+                    </a>
+                </li>
+                <li>
+                    <a href="ai_insights.html" class="nav-link active">
+                        <i class="bi bi-robot me-2"></i>AI Recommendations
+                    </a>
+                </li>
+                <li>
+                    <a href="tasks.html" class="nav-link text-dark">
+                        <i class="bi bi-person-workspace me-2"></i>Assigned Tasks
+                    </a>
+                </li>
+                <li>
+                    <a href="inventory.html" class="nav-link text-dark">
+                        <i class="bi bi-box-seam me-2"></i>Inventory
+                    </a>
+                </li>
+            </ul>
+            <hr>
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
+                    <img src="../assets/images/avatar-placeholder.png" alt="Clerk" width="32" height="32" class="rounded-circle me-2">
+                    <strong>Clerk Name</strong>
+                </a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="container-fluid py-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="mb-0">AI Insights & Recommendations</h2>
+                <div class="d-flex gap-2">
+                    <a href="inventory.html" class="btn btn-outline-secondary btn-sm">
+                        <i class="bi bi-box-seam me-1"></i> Inventory
+                    </a>
+                    <a href="orders.html" class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-list-task me-1"></i> All Orders
+                    </a>
+                </div>
+            </div>
+
+            <!-- Top Priority By Due Date -->
+            <div class="row g-4 mb-4">
+                <div class="col-12">
+                    <div class="card dashboard-card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="card-title mb-0">
+                                    <i class="bi bi-flag-fill me-2"></i>Top Priority (Nearest Due Dates)
+                                </h5>
+                                <a href="orders.html" class="btn btn-outline-primary btn-sm">Go to All Orders</a>
+                            </div>
+                            <div id="priorityList" class="list-group list-group-flush">
+                                <!-- Filled by script -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Priority Alerts -->
+            <div class="row g-4 mb-4">
+                <div class="col-12">
+                    <div class="card dashboard-card border-danger">
+                        <div class="card-body">
+                            <h5 class="card-title text-danger">
+                                <i class="bi bi-exclamation-triangle-fill me-2"></i>Immediate Actions Required
+                            </h5>
+                            <div class="ai-alert danger p-3 mb-2">
+                                <h6><i class="bi bi-exclamation-circle me-2"></i>Production Bottleneck Alert</h6>
+                                <p class="mb-0">Current workload exceeds capacity by 25%. Consider reassigning 3 orders to afternoon shift.</p>
+                            </div>
+                            <div class="ai-alert danger p-3">
+                                <h6><i class="bi bi-exclamation-circle me-2"></i>Critical Inventory Alert</h6>
+                                <p class="mb-0">Cyan ink levels critically low. Reorder immediately to avoid production delays.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Insights Grid -->
+            <div class="row g-4">
+                <!-- Workflow Optimization -->
+                <div class="col-md-6">
+                    <div class="card dashboard-card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="bi bi-graph-up me-2"></i>Workflow Optimization
+                            </h5>
+                            <div class="bg-light p-3 mb-3 rounded">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Morning Shift Efficiency</span>
+                                    <span class="text-success">85%</span>
+                                </div>
+                                <div class="progress mb-3">
+                                    <div class="progress-bar bg-success" style="width: 85%"></div>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Afternoon Shift Efficiency</span>
+                                    <span class="text-warning">65%</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar bg-warning" style="width: 65%"></div>
+                                </div>
+                            </div>
+                            <div class="ai-alert info p-3">
+                                <h6>Recommendation</h6>
+                                <p class="mb-0">Schedule complex jobs during morning shift for optimal efficiency.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Prediction -->
+                <div class="col-md-6">
+                    <div class="card dashboard-card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="bi bi-calendar-check me-2"></i>Order Prediction
+                            </h5>
+                            <div class="bg-light p-3 mb-3 rounded">
+                                <p class="text-muted text-center mb-2">Expected Orders Next Week</p>
+                                <div class="text-center fs-1 fw-bold text-primary mb-2">42</div>
+                                <p class="text-success text-center mb-0">
+                                    <i class="bi bi-arrow-up me-1"></i>15% increase from current week
+                                </p>
+                            </div>
+                            <div class="ai-alert warning p-3">
+                                <h6>Action Needed</h6>
+                                <p class="mb-0">Prepare additional materials for expected increase in banner orders.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resource Planning -->
+                <div class="col-md-6">
+                    <div class="card dashboard-card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="bi bi-people me-2"></i>Resource Planning
+                            </h5>
+                            <div class="list-group list-group-flush">
+                                <div class="list-group-item">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span>Design Team Capacity</span>
+                                        <span class="badge bg-success rounded-pill">Available</span>
+                                    </div>
+                                </div>
+                                <div class="list-group-item">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span>Printing Team Capacity</span>
+                                        <span class="badge bg-warning rounded-pill">Near Limit</span>
+                                    </div>
+                                </div>
+                                <div class="list-group-item">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span>QC Team Capacity</span>
+                                        <span class="badge bg-danger rounded-pill">Overloaded</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quality Insights -->
+                <div class="col-md-6">
+                    <div class="card dashboard-card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="bi bi-shield-check me-2"></i>Quality Insights
+                            </h5>
+                            <div class="bg-light p-3 mb-3 rounded">
+                                <h6 class="mb-3">Recent Quality Issues</h6>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Color Accuracy</span>
+                                    <span class="text-warning">3 issues</span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span>Print Alignment</span>
+                                    <span class="text-danger">2 issues</span>
+                                </div>
+                            </div>
+                            <div class="ai-alert success p-3">
+                                <h6>Recommendation</h6>
+                                <p class="mb-0">Schedule printer calibration to improve color accuracy.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function formatPeso(amount) {
+            if (amount === undefined || amount === null || amount === "") return "";
+            const num = Number(amount);
+            if (Number.isNaN(num)) return String(amount);
+            return `₱${num.toLocaleString('en-PH')}`;
+        }
+
+        function renderPriorityList() {
+            const container = document.getElementById('priorityList');
+            if (!container) return;
+
+            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            if (!orders.length) {
+                container.innerHTML = '<div class="list-group-item">No orders found. Add orders to see priorities.</div>';
+                return;
+            }
+
+            const now = new Date();
+            const parseDue = (d) => {
+                const dt = new Date(d);
+                return isNaN(dt.getTime()) ? null : dt;
+            };
+
+            // Exclude completed/cancelled if present; prioritize soonest due, overdue first
+            const activeOrders = orders.filter(o => !['Completed', 'Cancelled', 'Delivered'].includes(o.status));
+            const sorted = (activeOrders.length ? activeOrders : orders).slice().sort((a, b) => {
+                const da = parseDue(a.dueDate);
+                const db = parseDue(b.dueDate);
+                if (!da && !db) return 0;
+                if (!da) return 1;
+                if (!db) return -1;
+                // Overdue first among dates
+                const aOver = da < now;
+                const bOver = db < now;
+                if (aOver !== bOver) return aOver ? -1 : 1;
+                return da - db;
+            });
+
+            container.innerHTML = sorted.map(order => {
+                const due = parseDue(order.dueDate);
+                const isOverdue = due ? due < now : false;
+                const dueText = due ? due.toLocaleDateString() : 'No due date';
+                const statusClass = {
+                    'Initial Review': 'bg-info',
+                    'Design Phase': 'bg-primary',
+                    'Customer Review': 'bg-warning',
+                    'Revision': 'bg-secondary',
+                    'Final Approval': 'bg-success',
+                    'In Production': 'bg-primary',
+                    'Quality Check': 'bg-info',
+                    'Ready for Installation': 'bg-success',
+                    'Ready for Pickup': 'bg-success',
+                    'Delivered': 'bg-dark',
+                    'Completed': 'bg-secondary',
+                    'Cancelled': 'bg-danger'
+                }[order.status] || 'bg-secondary';
+
+                return `
+                <div class="list-group-item">
+                    <div class="d-flex w-100 justify-content-between align-items-center">
+                        <div class="me-3">
+                            <h6 class="mb-1">${order.orderId || ''} — ${order.customerName || ''}</h6>
+                            <div class="small text-muted">${order.serviceType || ''}</div>
+                        </div>
+                        <div class="text-end">
+                            <div class="mb-1">
+                                <span class="badge ${statusClass}">${order.status || '—'}</span>
+                                ${isOverdue ? '<span class="badge bg-danger ms-1">Overdue</span>' : ''}
+                            </div>
+                            <div class="small">Due: <strong>${dueText}</strong></div>
+                            ${order.amount ? `<div class="small text-muted">${formatPeso(order.amount)}</div>` : ''}
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', renderPriorityList);
+    </script>
+</body>
+</html>

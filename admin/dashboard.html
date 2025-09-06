@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard | Galit Digital Printing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body { 
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .dashboard-card { 
+            border-radius: 20px; 
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: none;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+            transition: all 0.3s ease;
+        }
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+        .card-header { 
+            border-bottom: 2px solid #e9ecef; 
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 20px 20px 0 0 !important;
+            padding: 1.5rem;
+        }
+        .nav-link.active { 
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            color: white !important;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
+        }
+        .sidebar { 
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+        }
+        .chart-container { 
+            position: relative; 
+            min-height: 300px; 
+            padding: 1rem;
+        }
+        .chart-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+        }
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        .category-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        .btn-modern {
+            border-radius: 10px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .btn-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        .main-title {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            font-size: 2.5rem;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="d-flex flex-column flex-shrink-0 p-3 bg-white shadow sidebar" style="width: 280px; height: 100vh;">
+            <a href="../index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none">
+                <span class="fs-4 text-primary">Admin Dashboard</span>
+            </a>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link active">
+                        <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="create_order.html" class="nav-link text-dark">
+                        <i class="bi bi-plus-circle me-2"></i>New Order
+                    </a>
+                </li>
+                <li>
+                    <a href="assign_staff.html" class="nav-link text-dark">
+                        <i class="bi bi-people me-2"></i>Staff Assignment
+                    </a>
+                </li>
+                <li>
+                    <a href="inventory.html" class="nav-link text-dark">
+                        <i class="bi bi-box-seam me-2"></i>Inventory
+                    </a>
+                </li>
+                <li>
+                    <a href="staff.html" class="nav-link text-dark">
+                        <i class="bi bi-people-fill me-2"></i>Staff Management
+                    </a>
+                </li>
+            </ul>
+            <hr>
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
+                    <img src="../assets/images/avatar-placeholder.png" alt="Admin" width="32" height="32" class="rounded-circle me-2">
+                    <strong>Admin User</strong>
+                </a>
+                <ul class="dropdown-menu text-small shadow">
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="../index.html">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="container-fluid py-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="main-title mb-0">
+                    <i class="bi bi-speedometer2 me-3"></i>Admin Dashboard
+                </h1>
+                <div class="d-flex gap-3">
+                    <a href="orders_database.html" class="btn btn-primary btn-modern">
+                        <i class="bi bi-database me-2"></i>Orders Database
+                    </a>
+                    <a href="recommendations.html" class="btn btn-info btn-modern">
+                        <i class="bi bi-robot me-2"></i>AI Insights
+                    </a>
+                </div>
+            </div>
+
+            <!-- Key Statistics -->
+            <div class="row g-4 mb-4">
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalRevenue">₱0</div>
+                        <div class="stat-label">Total Revenue</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalOrders">0</div>
+                        <div class="stat-label">Total Orders</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-value" id="avgOrderValue">₱0</div>
+                        <div class="stat-label">Avg Order Value</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-value" id="pendingOrders">0</div>
+                        <div class="stat-label">Pending Orders</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics & Reports -->
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <div class="card dashboard-card">
+                        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0"><i class="bi bi-bar-chart me-2"></i>Sales Trends</h5>
+                            <div class="d-flex align-items-center gap-2">
+                                <label for="analyticsRange" class="small text-muted mb-0">Range</label>
+                                <select id="analyticsRange" class="form-select form-select-sm" style="width:auto" onchange="renderCharts()">
+                                    <option value="day">Day</option>
+                                    <option value="month" selected>Month</option>
+                                    <option value="year">Year</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-body chart-container">
+                            <canvas id="salesTrendChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card dashboard-card mb-4">
+                        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0"><i class="bi bi-bar-chart me-2"></i>Sales by Category</h5>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="text-muted small">Updated Categories</span>
+                                <button class="btn btn-sm btn-outline-primary" onclick="refreshSalesData()" title="Refresh Sales Data">
+                                    <i class="bi bi-arrow-clockwise"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body chart-container">
+                            <canvas id="salesCategoryChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="card dashboard-card">
+                        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0"><i class="bi bi-bar-chart me-2"></i>Category Performance</h5>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="text-muted small">Last 30 Days</span>
+                                <button class="btn btn-sm btn-outline-success" onclick="addSampleData()" title="Add Sample Data">
+                                    <i class="bi bi-plus-circle"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span><i class="bi bi-file-earmark-text me-2"></i>Tarpaulin</span>
+                                    <span class="badge bg-primary" id="tarpaulinSales">₱0</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span><i class="bi bi-tag me-2"></i>Stickers</span>
+                                    <span class="badge bg-success" id="stickersSales">₱0</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span><i class="bi bi-person-workspace me-2"></i>Shirts</span>
+                                    <span class="badge bg-info" id="shirtsSales">₱0</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span><i class="bi bi-printer me-2"></i>Print & Xerox</span>
+                                    <span class="badge bg-warning" id="printXeroxSales">₱0</span>
+                                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center" style="cursor: pointer;" onclick="showOthersBreakdown()">
+                    <span><i class="bi bi-three-dots me-2"></i>Others</span>
+                    <span class="badge bg-secondary" id="othersSales">₱0</span>
+                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Others Category Breakdown Modal -->
+    <div class="modal fade" id="othersBreakdownModal" tabindex="-1" aria-labelledby="othersBreakdownModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header bg-secondary text-white">
+                    <h5 class="modal-title" id="othersBreakdownModalLabel">
+                        <i class="bi bi-three-dots me-2"></i>Others Category - Detailed Service Breakdown
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Top Performer Highlight -->
+                    <div class="alert alert-success mb-4" id="topPerformerAlert" style="display: none;">
+                        <h6 class="mb-0">
+                            <i class="bi bi-trophy me-2"></i>
+                            <span id="topPerformerText"></span>
+                        </h6>
+                    </div>
+
+                    <!-- Summary Stats -->
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <div class="card text-center">
+                                <div class="card-body">
+                                    <h6 class="text-muted">Total Services</h6>
+                                    <h4 class="text-primary" id="totalServicesCount">0</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card text-center">
+                                <div class="card-body">
+                                    <h6 class="text-muted">Total Sales</h6>
+                                    <h4 class="text-success" id="totalOthersSales">₱0</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card text-center">
+                                <div class="card-body">
+                                    <h6 class="text-muted">Average per Service</h6>
+                                    <h4 class="text-info" id="averageServiceSales">₱0</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Services Breakdown Table -->
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Service Name</th>
+                                    <th>Sales Amount</th>
+                                    <th>Percentage</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="othersBreakdownTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Chart Section -->
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <h6>Sales Distribution Chart</h6>
+                            <div class="chart-container" style="height: 300px;">
+                                <canvas id="othersBreakdownChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" onclick="refreshOthersBreakdown()">
+                        <i class="bi bi-arrow-clockwise me-2"></i>Refresh Data
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="../assets/js/sales-data.js"></script>
+    <script>
+        function generateSalesTrendData(range) {
+            // Get actual sales data from sales data manager
+            const allSales = window.salesDataManager.getAllSales();
+            let labels, values;
+
+            if (range === 'day') {
+                // Last 7 days
+                labels = [];
+                values = [];
+                for (let i = 6; i >= 0; i--) {
+                    const date = new Date();
+                    date.setDate(date.getDate() - i);
+                    const dayLabel = date.toLocaleDateString('en-US', { weekday: 'short' });
+                    labels.push(dayLabel);
+                    
+                    // Calculate sales for this day
+                    const daySales = allSales.filter(sale => {
+                        const saleDate = new Date(sale.timestamp || sale.date);
+                        return saleDate.toDateString() === date.toDateString();
+                    });
+                    const dayTotal = daySales.reduce((sum, sale) => sum + (sale.amount || 0), 0);
+                    values.push(dayTotal);
+                }
+            } else if (range === 'month') {
+                // Last 12 months
+                labels = [];
+                values = [];
+                for (let i = 11; i >= 0; i--) {
+                    const date = new Date();
+                    date.setMonth(date.getMonth() - i);
+                    const monthLabel = date.toLocaleDateString('en-US', { month: 'short' });
+                    labels.push(monthLabel);
+                    
+                    // Calculate sales for this month
+                    const monthSales = allSales.filter(sale => {
+                        const saleDate = new Date(sale.timestamp || sale.date);
+                        return saleDate.getMonth() === date.getMonth() && 
+                               saleDate.getFullYear() === date.getFullYear();
+                    });
+                    const monthTotal = monthSales.reduce((sum, sale) => sum + (sale.amount || 0), 0);
+                    values.push(monthTotal);
+                }
+            } else { // year
+                // Last 4 years
+                labels = [];
+                values = [];
+                for (let i = 3; i >= 0; i--) {
+                    const year = new Date().getFullYear() - i;
+                    labels.push(year.toString());
+                    
+                    // Calculate sales for this year
+                    const yearSales = allSales.filter(sale => {
+                        const saleDate = new Date(sale.timestamp || sale.date);
+                        return saleDate.getFullYear() === year;
+                    });
+                    const yearTotal = yearSales.reduce((sum, sale) => sum + (sale.amount || 0), 0);
+                    values.push(yearTotal);
+                }
+            }
+
+            return {
+                labels: labels,
+                datasets: [{
+                    label: 'Sales Revenue',
+                    data: values,
+                    backgroundColor: [
+                        'rgba(102, 126, 234, 0.8)',
+                        'rgba(118, 75, 162, 0.8)',
+                        'rgba(52, 152, 219, 0.8)',
+                        'rgba(46, 204, 113, 0.8)',
+                        'rgba(241, 196, 15, 0.8)',
+                        'rgba(231, 76, 60, 0.8)',
+                        'rgba(155, 89, 182, 0.8)',
+                        'rgba(52, 73, 94, 0.8)',
+                        'rgba(26, 188, 156, 0.8)',
+                        'rgba(230, 126, 34, 0.8)',
+                        'rgba(142, 68, 173, 0.8)',
+                        'rgba(41, 128, 185, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgba(102, 126, 234, 1)',
+                        'rgba(118, 75, 162, 1)',
+                        'rgba(52, 152, 219, 1)',
+                        'rgba(46, 204, 113, 1)',
+                        'rgba(241, 196, 15, 1)',
+                        'rgba(231, 76, 60, 1)',
+                        'rgba(155, 89, 182, 1)',
+                        'rgba(52, 73, 94, 1)',
+                        'rgba(26, 188, 156, 1)',
+                        'rgba(230, 126, 34, 1)',
+                        'rgba(142, 68, 173, 1)',
+                        'rgba(41, 128, 185, 1)'
+                    ],
+                    borderWidth: 2,
+                    borderRadius: 8,
+                    borderSkipped: false,
+                }]
+            };
+        }
+
+        function generateCategoryBarData() {
+            // Get category summary from sales data manager
+            const categoryData = window.salesDataManager.getCategorySummary();
+            
+            return {
+                labels: ['Tarpaulin', 'Stickers', 'Shirts', 'Print & Xerox', 'Others'],
+                datasets: [{
+                    label: 'Sales Revenue',
+                    data: [
+                        categoryData.tarpaulin || 0,
+                        categoryData.stickers || 0,
+                        categoryData.shirts || 0,
+                        categoryData.printxerox || categoryData.printXerox || 0,
+                        categoryData.others || 0
+                    ],
+                    backgroundColor: [
+                        'rgba(102, 126, 234, 0.8)',
+                        'rgba(46, 204, 113, 0.8)',
+                        'rgba(52, 152, 219, 0.8)',
+                        'rgba(241, 196, 15, 0.8)',
+                        'rgba(108, 117, 125, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgba(102, 126, 234, 1)',
+                        'rgba(46, 204, 113, 1)',
+                        'rgba(52, 152, 219, 1)',
+                        'rgba(241, 196, 15, 1)',
+                        'rgba(108, 117, 125, 1)'
+                    ],
+                    borderWidth: 2,
+                    borderRadius: 8,
+                    borderSkipped: false,
+                }]
+            };
+        }
+
+        function updateCategoryChart(categoryData) {
+            if (categoryChart) {
+                categoryChart.data.datasets[0].data = [
+                    categoryData.tarpaulin || 0,
+                    categoryData.stickers || 0,
+                    categoryData.shirts || 0,
+                    categoryData.printxerox || 0,
+                    categoryData.others || 0
+                ];
+                categoryChart.update();
+            }
+        }
+
+        let salesChart, categoryChart;
+        
+        function updateStatistics() {
+            const allSales = window.salesDataManager.getAllSales();
+            
+            // Calculate total revenue
+            const totalRevenue = allSales.reduce((sum, sale) => sum + (sale.amount || 0), 0);
+            
+            // Calculate total orders
+            const totalOrders = allSales.length;
+            
+            // Calculate average order value
+            const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
+            
+            // Calculate pending orders (assuming orders with status 'pending')
+            const pendingOrders = allSales.filter(sale => 
+                sale.orderData && sale.orderData.status === 'pending'
+            ).length;
+            
+            // Update the statistics cards
+            document.getElementById('totalRevenue').textContent = `₱${totalRevenue.toLocaleString()}`;
+            document.getElementById('totalOrders').textContent = totalOrders.toLocaleString();
+            document.getElementById('avgOrderValue').textContent = `₱${Math.round(avgOrderValue).toLocaleString()}`;
+            document.getElementById('pendingOrders').textContent = pendingOrders.toLocaleString();
+        }
+
+        function updateCategoryPerformance(categoryData = null) {
+            if (!categoryData) {
+                // Get category summary from shared data manager
+                categoryData = window.salesDataManager.getCategorySummary();
+            }
+
+            // Update the badges
+            document.getElementById('tarpaulinSales').textContent = `₱${(categoryData.tarpaulin || 0).toLocaleString()}`;
+            document.getElementById('stickersSales').textContent = `₱${(categoryData.stickers || 0).toLocaleString()}`;
+            document.getElementById('shirtsSales').textContent = `₱${(categoryData.shirts || 0).toLocaleString()}`;
+            document.getElementById('printXeroxSales').textContent = `₱${(categoryData.printxerox || categoryData.printXerox || 0).toLocaleString()}`;
+            document.getElementById('othersSales').textContent = `₱${(categoryData.others || 0).toLocaleString()}`;
+        }
+
+        function renderCharts() {
+            const range = document.getElementById('analyticsRange').value;
+
+            // Sales Trends Bar Chart
+            if (salesChart) salesChart.destroy();
+            const ctxSales = document.getElementById('salesTrendChart').getContext('2d');
+            salesChart = new Chart(ctxSales, {
+                type: 'bar',
+                data: generateSalesTrendData(range),
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { 
+                        legend: { position: 'top' }, 
+                        tooltip: { 
+                            callbacks: { 
+                                label: ctx => `₱${ctx.parsed.y.toLocaleString()}` 
+                            } 
+                        } 
+                    },
+                    scales: { 
+                        y: { 
+                            beginAtZero: true, 
+                            title: { display: true, text: 'Sales (₱)' },
+                            ticks: {
+                                callback: function(value) {
+                                    return '₱' + value.toLocaleString();
+                                }
+                            }
+                        },
+                        x: {
+                            title: { display: true, text: 'Period' }
+                        }
+                    }
+                }
+            });
+
+            // Sales by Category Bar Chart
+            if (categoryChart) categoryChart.destroy();
+            const ctxCategory = document.getElementById('salesCategoryChart').getContext('2d');
+            categoryChart = new Chart(ctxCategory, {
+                type: 'bar',
+                data: generateCategoryBarData(),
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { 
+                        legend: { position: 'top' }, 
+                        tooltip: { 
+                            callbacks: { 
+                                label: ctx => `${ctx.label}: ₱${ctx.parsed.y.toLocaleString()}` 
+                            } 
+                        } 
+                    },
+                    scales: { 
+                        y: { 
+                            beginAtZero: true, 
+                            title: { display: true, text: 'Sales (₱)' },
+                            ticks: {
+                                callback: function(value) {
+                                    return '₱' + value.toLocaleString();
+                                }
+                            }
+                        },
+                        x: {
+                            title: { display: true, text: 'Service Categories' }
+                        }
+                    }
+                }
+            });
+
+            // Update statistics and category performance
+            updateStatistics();
+            updateCategoryPerformance();
+        }
+
+        function refreshSalesData() {
+            renderCharts();
+            // Show a brief notification
+            const button = event.target.closest('button');
+            const originalIcon = button.innerHTML;
+            button.innerHTML = '<i class="bi bi-check"></i>';
+            button.classList.add('btn-success');
+            button.classList.remove('btn-outline-primary');
+            
+            setTimeout(() => {
+                button.innerHTML = originalIcon;
+                button.classList.remove('btn-success');
+                button.classList.add('btn-outline-primary');
+            }, 1000);
+        }
+
+        function addSampleData() {
+            // Add sample sales data for demonstration
+            const sampleSales = [
+                { category: 'tarpaulin', amount: 2500, customer: 'ABC Company', description: 'Large banner printing' },
+                { category: 'stickers', amount: 800, customer: 'XYZ Store', description: 'Vinyl stickers' },
+                { category: 'shirts', amount: 1200, customer: 'Event Organizer', description: 'Custom t-shirt printing' },
+                { category: 'tarpaulin', amount: 1800, customer: 'Local Business', description: 'Promotional banner' },
+                { category: 'others', amount: 600, customer: 'Walk-in Customer', description: 'Business cards' },
+                // Add sample "Others" category services
+                { category: 'others', service: 'Reflective Signage', amount: 1500, customer: 'Road Safety Corp', description: 'Road safety signs' },
+                { category: 'others', service: 'Vehicle Decals', amount: 800, customer: 'Fleet Management', description: 'Company vehicle branding' },
+                { category: 'others', service: 'Acrylic Plates', amount: 1200, customer: 'Office Building', description: 'Office name plates' },
+                { category: 'others', service: 'Personalize Mugs', amount: 600, customer: 'Coffee Shop', description: 'Custom coffee mugs' },
+                { category: 'others', service: 'PVC ID', amount: 400, customer: 'Security Company', description: 'Employee ID cards' },
+                { category: 'others', service: 'Event Sash', amount: 300, customer: 'Event Organizer', description: 'Award ceremony sashes' },
+                { category: 'others', service: 'Sintra Frames', amount: 900, customer: 'Art Gallery', description: 'Picture frames' },
+                { category: 'others', service: 'Standees', amount: 2000, customer: 'Retail Store', description: 'Promotional standees' },
+                { category: 'others', service: 'Fridge Magnets', amount: 200, customer: 'Restaurant', description: 'Promotional magnets' },
+                { category: 'others', service: 'Steel Plate Signage', amount: 1800, customer: 'Construction Co', description: 'Building signage' },
+                { category: 'others', service: 'Acrylic Signage', amount: 1100, customer: 'Medical Center', description: 'Directional signs' },
+                { category: 'others', service: 'Calling Card', amount: 150, customer: 'Business Owner', description: 'Business cards' },
+                { category: 'others', service: 'Photo Frames', amount: 500, customer: 'Photography Studio', description: 'Custom photo frames' },
+                { category: 'others', service: 'Wood Engraving', amount: 700, customer: 'Furniture Store', description: 'Wooden plaques' },
+                { category: 'others', service: 'Giveaways', amount: 300, customer: 'Marketing Agency', description: 'Promotional items' },
+                { category: 'others', service: 'Neon LED', amount: 2500, customer: 'Night Club', description: 'LED signage' },
+                { category: 'others', service: 'DTF', amount: 800, customer: 'Print Shop', description: 'Direct to film printing' },
+                { category: 'others', service: 'Decals', amount: 400, customer: 'Car Dealership', description: 'Vehicle decals' }
+            ];
+
+            sampleSales.forEach(sale => {
+                window.salesDataManager.addSale(sale);
+            });
+
+            // Refresh the charts
+            renderCharts();
+            
+            // Show notification
+            alert('Sample data added successfully!');
+        }
+
+        // Others Category Breakdown Functions
+        let othersBreakdownChart;
+
+        function showOthersBreakdown() {
+            const modal = new bootstrap.Modal(document.getElementById('othersBreakdownModal'));
+            modal.show();
+            refreshOthersBreakdown();
+        }
+
+        function refreshOthersBreakdown() {
+            // Try to get data from database first
+            fetch('../api/get_orders.php?action=others_breakdown')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        displayOthersBreakdown(data.data);
+                    } else {
+                        // Fallback to local storage
+                        const breakdown = window.salesDataManager.getOthersBreakdown();
+                        displayOthersBreakdown(breakdown);
+                    }
+                })
+                .catch(error => {
+                    console.log('Using local storage data for others breakdown:', error);
+                    // Fallback to local storage
+                    const breakdown = window.salesDataManager.getOthersBreakdown();
+                    displayOthersBreakdown(breakdown);
+                });
+        }
+
+        function displayOthersBreakdown(breakdown) {
+            
+            if (breakdown.length === 0) {
+                // Show empty state
+                document.getElementById('topPerformerAlert').style.display = 'none';
+                document.getElementById('totalServicesCount').textContent = '0';
+                document.getElementById('totalOthersSales').textContent = '₱0';
+                document.getElementById('averageServiceSales').textContent = '₱0';
+                document.getElementById('othersBreakdownTableBody').innerHTML = '<tr><td colspan="5" class="text-center text-muted">No sales data available for Others category</td></tr>';
+                
+                // Clear chart
+                if (othersBreakdownChart) {
+                    othersBreakdownChart.destroy();
+                }
+                return;
+            }
+
+            // Calculate totals
+            const totalSales = breakdown.reduce((sum, item) => sum + item.amount, 0);
+            const totalServices = breakdown.length;
+            const averageSales = totalSales / totalServices;
+
+            // Update summary stats
+            document.getElementById('totalServicesCount').textContent = totalServices;
+            document.getElementById('totalOthersSales').textContent = `₱${totalSales.toLocaleString()}`;
+            document.getElementById('averageServiceSales').textContent = `₱${Math.round(averageSales).toLocaleString()}`;
+
+            // Highlight top performer
+            const topPerformer = breakdown[0];
+            document.getElementById('topPerformerText').textContent = 
+                `Top Performer: ${topPerformer.service} with ₱${topPerformer.amount.toLocaleString()} (${((topPerformer.amount / totalSales) * 100).toFixed(1)}%)`;
+            document.getElementById('topPerformerAlert').style.display = 'block';
+
+            // Update table
+            const tbody = document.getElementById('othersBreakdownTableBody');
+            tbody.innerHTML = '';
+
+            breakdown.forEach((item, index) => {
+                const row = tbody.insertRow();
+                const percentage = ((item.amount / totalSales) * 100).toFixed(1);
+                
+                // Add ranking badge
+                const rankCell = row.insertCell(0);
+                if (index === 0) {
+                    rankCell.innerHTML = '<span class="badge bg-warning text-dark">#1</span>';
+                } else if (index === 1) {
+                    rankCell.innerHTML = '<span class="badge bg-secondary">#2</span>';
+                } else if (index === 2) {
+                    rankCell.innerHTML = '<span class="badge bg-info">#3</span>';
+                } else {
+                    rankCell.innerHTML = `<span class="badge bg-light text-dark">#${index + 1}</span>`;
+                }
+
+                row.insertCell(1).textContent = item.service;
+                row.insertCell(2).innerHTML = `<strong>₱${item.amount.toLocaleString()}</strong>`;
+                row.insertCell(3).textContent = `${percentage}%`;
+                
+                // Status based on performance
+                const statusCell = row.insertCell(4);
+                if (index === 0) {
+                    statusCell.innerHTML = '<span class="badge bg-success">Top Performer</span>';
+                } else if (item.amount > averageSales) {
+                    statusCell.innerHTML = '<span class="badge bg-primary">Above Average</span>';
+                } else {
+                    statusCell.innerHTML = '<span class="badge bg-secondary">Below Average</span>';
+                }
+
+                // Highlight top performer row
+                if (index === 0) {
+                    row.classList.add('table-success');
+                }
+            });
+
+            // Update chart
+            updateOthersBreakdownChart(breakdown);
+        }
+
+        function updateOthersBreakdownChart(breakdown) {
+            const ctx = document.getElementById('othersBreakdownChart').getContext('2d');
+            
+            if (othersBreakdownChart) {
+                othersBreakdownChart.destroy();
+            }
+
+            // Prepare chart data (show top 10 services)
+            const chartData = breakdown.slice(0, 10);
+            const labels = chartData.map(item => item.service);
+            const data = chartData.map(item => item.amount);
+            const colors = chartData.map((item, index) => {
+                if (index === 0) return '#ffc107'; // Gold for top performer
+                if (index === 1) return '#6c757d'; // Silver for second
+                if (index === 2) return '#fd7e14'; // Bronze for third
+                return `hsl(${200 + index * 20}, 70%, 50%)`; // Different colors for others
+            });
+
+            othersBreakdownChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Sales Amount (₱)',
+                        data: data,
+                        backgroundColor: colors,
+                        borderColor: colors.map(color => color.replace('0.7', '1')),
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.label}: ₱${context.parsed.y.toLocaleString()}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Sales Amount (₱)'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return '₱' + value.toLocaleString();
+                                }
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Services'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCharts();
+            updateStatistics();
+        });
+    </script>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Customer Order | Galit Digital Printing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; }
+        .test-card { border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container py-4">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center mb-4">
+                    <i class="bi bi-bug me-2"></i>Customer Order Test
+                </h1>
+                <p class="text-center text-muted mb-4">
+                    Test the customer order placement functionality
+                </p>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Test Order Form -->
+            <div class="col-md-6">
+                <div class="card test-card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="bi bi-cart me-2"></i>Test Order Placement</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="testOrderForm">
+                            <div class="mb-3">
+                                <label class="form-label">Service Category</label>
+                                <select class="form-select" id="testServiceCategory" required>
+                                    <option value="">Select service...</option>
+                                    <option value="Shirts">Shirts</option>
+                                    <option value="Tarpaulin">Tarpaulin</option>
+                                    <option value="Print & Xerox">Print & Xerox</option>
+                                    <option value="Stickers">Stickers</option>
+                                    <option value="Others">Others</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3" id="tarpaulinSizeTest" style="display: none;">
+                                <label class="form-label">Size (for Tarpaulin)</label>
+                                <input type="text" class="form-control" id="testSize" placeholder="e.g., 3ft x 5ft">
+                            </div>
+
+                            <div class="mb-3" id="othersServiceTest" style="display: none;">
+                                <label class="form-label">Specific Service (for Others)</label>
+                                <select class="form-select" id="testOthersService">
+                                    <option value="">Select specific service...</option>
+                                    <option value="Reflective Signage">Reflective Signage</option>
+                                    <option value="Acrylic Plates">Acrylic Plates</option>
+                                    <option value="Vehicle Decals">Vehicle Decals</option>
+                                    <option value="PVC ID">PVC ID</option>
+                                    <option value="Standees">Standees</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Quantity</label>
+                                <input type="number" class="form-control" id="testQuantity" value="1" min="1" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Due Date</label>
+                                <input type="date" class="form-control" id="testDueDate" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Instructions</label>
+                                <textarea class="form-control" id="testInstructions" rows="2" placeholder="Any special instructions..."></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Delivery Preference</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="testDelivery" id="testPickup" value="pickup" checked>
+                                    <label class="form-check-label" for="testPickup">Store Pickup</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="testDelivery" id="testDelivery" value="delivery">
+                                    <label class="form-check-label" for="testDelivery">Delivery</label>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="bi bi-check-circle me-2"></i>Test Submit Order
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Test Results -->
+            <div class="col-md-6">
+                <div class="card test-card">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0"><i class="bi bi-clipboard-check me-2"></i>Test Results</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="testResults">
+                            <p class="text-muted">No test results yet. Submit a test order to see results.</p>
+                        </div>
+                        
+                        <div class="mt-3">
+                            <button class="btn btn-outline-info w-100" onclick="viewStoredOrders()">
+                                <i class="bi bi-eye me-2"></i>View Stored Orders
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="row mt-4">
+            <div class="col-12 text-center">
+                <a href="customer/place_order.html" class="btn btn-primary me-2">
+                    <i class="bi bi-cart me-2"></i>Go to Customer Order Form
+                </a>
+                <a href="admin/dashboard.html" class="btn btn-success me-2">
+                    <i class="bi bi-graph-up me-2"></i>Admin Dashboard
+                </a>
+                <a href="test-integration.html" class="btn btn-info">
+                    <i class="bi bi-gear me-2"></i>Integration Test
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/sales-data.js"></script>
+    <script>
+        // Set minimum date to today
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('testDueDate').min = today;
+            document.getElementById('testDueDate').value = today;
+        });
+
+        // Handle service category change
+        document.getElementById('testServiceCategory').addEventListener('change', function() {
+            const category = this.value;
+            const tarpaulinSection = document.getElementById('tarpaulinSizeTest');
+            const othersSection = document.getElementById('othersServiceTest');
+
+            // Hide all conditional sections
+            tarpaulinSection.style.display = 'none';
+            othersSection.style.display = 'none';
+
+            // Show relevant section
+            if (category === 'Tarpaulin') {
+                tarpaulinSection.style.display = 'block';
+            } else if (category === 'Others') {
+                othersSection.style.display = 'block';
+            }
+        });
+
+        // Handle form submission
+        document.getElementById('testOrderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = {
+                customer_name: 'Test Customer',
+                customer_email: 'test@example.com',
+                customer_phone: '+63 912 345 6789',
+                service_category: document.getElementById('testServiceCategory').value,
+                quantity: parseInt(document.getElementById('testQuantity').value),
+                due_date: document.getElementById('testDueDate').value,
+                instructions: document.getElementById('testInstructions').value,
+                delivery_preference: document.querySelector('input[name="testDelivery"]:checked').value,
+                files_count: 0
+            };
+
+            // Add service-specific data
+            if (formData.service_category === 'Tarpaulin') {
+                formData.size = document.getElementById('testSize').value;
+                formData.service_name = 'Tarpaulin';
+            } else if (formData.service_category === 'Others') {
+                formData.service_name = document.getElementById('testOthersService').value;
+            } else {
+                formData.service_name = formData.service_category;
+            }
+
+            // Calculate pricing
+            const pricing = calculateTestPricing(formData);
+            
+            // Generate order ID
+            const orderId = 'TEST-' + new Date().getFullYear() + '-' + String(Date.now()).slice(-6);
+            
+            // Create order data
+            const orderData = {
+                ...formData,
+                order_id: orderId,
+                pricing: pricing,
+                timestamp: new Date().toISOString(),
+                status: 'pending'
+            };
+
+            // Save to sales data manager
+            const saleData = {
+                category: formData.service_category === 'Print & Xerox' ? 'printXerox' : 
+                         formData.service_category.toLowerCase().replace(' & ', ''),
+                service: formData.service_name,
+                amount: pricing.total,
+                customer: 'Test Customer',
+                description: `Test Order ${orderId}: ${formData.service_category}${formData.service_name && formData.service_name !== formData.service_category ? ' - ' + formData.service_name : ''}`,
+                orderData: orderData
+            };
+
+            if (window.salesDataManager) {
+                window.salesDataManager.addSale(saleData);
+            }
+
+            // Display results
+            displayTestResults(orderData, saleData);
+
+            // Reset form
+            document.getElementById('testOrderForm').reset();
+            document.getElementById('testDueDate').value = new Date().toISOString().split('T')[0];
+            document.getElementById('tarpaulinSizeTest').style.display = 'none';
+            document.getElementById('othersServiceTest').style.display = 'none';
+        });
+
+        function calculateTestPricing(formData) {
+            let basePrice = 0;
+            let additionalCharges = 0;
+
+            const pricing = {
+                'Shirts': 500,
+                'Tarpaulin': 800,
+                'Print & Xerox': 50,
+                'Stickers': 200,
+                'Others': 300
+            };
+
+            basePrice = pricing[formData.service_category] || 0;
+
+            // Tarpaulin size-based pricing
+            if (formData.service_category === 'Tarpaulin' && formData.size) {
+                if (formData.size.match(/(\d+(?:\.\d+)?)\s*ft\s*x\s*(\d+(?:\.\d+)?)\s*ft/)) {
+                    const matches = formData.size.match(/(\d+(?:\.\d+)?)\s*ft\s*x\s*(\d+(?:\.\d+)?)\s*ft/);
+                    const width = parseFloat(matches[1]);
+                    const height = parseFloat(matches[2]);
+                    const area = width * height;
+                    additionalCharges = Math.round(area * 50);
+                }
+            }
+
+            // Delivery charges
+            if (formData.delivery_preference === 'delivery') {
+                additionalCharges += 200;
+            }
+
+            return {
+                base_price: basePrice,
+                additional_charges: additionalCharges,
+                total: basePrice + additionalCharges
+            };
+        }
+
+        function displayTestResults(orderData, saleData) {
+            const resultsDiv = document.getElementById('testResults');
+            resultsDiv.innerHTML = `
+                <div class="alert alert-success">
+                    <h6><i class="bi bi-check-circle me-2"></i>Test Order Successful!</h6>
+                    <p><strong>Order ID:</strong> ${orderData.order_id}</p>
+                    <p><strong>Service:</strong> ${orderData.service_category}${orderData.service_name && orderData.service_name !== orderData.service_category ? ' - ' + orderData.service_name : ''}</p>
+                    <p><strong>Size:</strong> ${orderData.size || 'N/A'}</p>
+                    <p><strong>Quantity:</strong> ${orderData.quantity}</p>
+                    <p><strong>Total Amount:</strong> ₱${orderData.pricing.total.toLocaleString()}</p>
+                    <p><strong>Status:</strong> ${orderData.status}</p>
+                    <p><strong>Timestamp:</strong> ${new Date(orderData.timestamp).toLocaleString()}</p>
+                </div>
+            `;
+        }
+
+        function viewStoredOrders() {
+            if (window.salesDataManager) {
+                const allSales = window.salesDataManager.getAllSales();
+                const testOrders = allSales.filter(sale => sale.customer === 'Test Customer');
+                
+                if (testOrders.length === 0) {
+                    alert('No test orders found in storage.');
+                    return;
+                }
+
+                let message = 'Test Orders in Storage:\n\n';
+                testOrders.forEach((order, index) => {
+                    message += `${index + 1}. ${order.description}\n`;
+                    message += `   Amount: ₱${order.amount.toLocaleString()}\n`;
+                    message += `   Date: ${new Date(order.timestamp).toLocaleDateString()}\n\n`;
+                });
+
+                alert(message);
+            } else {
+                alert('Sales data manager not available.');
+            }
+        }
+    </script>
+</body>
+</html>

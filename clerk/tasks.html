@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Assigned Tasks | Galit Digital Printing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="d-flex flex-column flex-shrink-0 p-3 bg-white shadow" style="width: 280px; height: 100vh;">
+            <a href="../index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none">
+                <span class="fs-4 text-success">Clerk Portal</span>
+            </a>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link text-dark">
+                        <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="orders.html" class="nav-link text-dark">
+                        <i class="bi bi-list-check me-2"></i>All Orders
+                    </a>
+                </li>
+                <li>
+                    <a href="create_order.html" class="nav-link text-dark">
+                        <i class="bi bi-plus-circle me-2"></i>Create Job Order
+                    </a>
+                </li>
+                <li>
+                    <a href="ai_insights.html" class="nav-link text-dark">
+                        <i class="bi bi-robot me-2"></i>AI Recommendations
+                    </a>
+                </li>
+                <li>
+                    <a href="tasks.html" class="nav-link active">
+                        <i class="bi bi-person-workspace me-2"></i>Assigned Tasks
+                    </a>
+                </li>
+                <li>
+                    <a href="inventory.html" class="nav-link text-dark">
+                        <i class="bi bi-box-seam me-2"></i>Inventory
+                    </a>
+                </li>
+            </ul>
+            <hr>
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
+                    <img src="../assets/images/avatar-placeholder.png" alt="Clerk" width="32" height="32" class="rounded-circle me-2">
+                    <strong>Clerk Name</strong>
+                </a>
+                <ul class="dropdown-menu text-small shadow">
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="../index.html">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="container-fluid py-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="mb-0">Assigned Tasks</h2>
+                <div>
+                    <a href="orders.html" class="btn btn-outline-primary btn-sm"><i class="bi bi-list-task me-1"></i>View All Orders</a>
+                    <a href="inventory.html" class="btn btn-outline-secondary btn-sm"><i class="bi bi-box-seam me-1"></i>Manage Inventory</a>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-7">
+                    <div class="card dashboard-card mb-4">
+                        <div class="card-header bg-white">
+                            <h5 class="mb-0"><i class="bi bi-clipboard-check me-2"></i>My Current Tasks</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle" id="tasksTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Order ID</th>
+                                            <th>Customer</th>
+                                            <th>Service</th>
+                                            <th>Due</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tasksTableBody">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card dashboard-card">
+                        <div class="card-header bg-white">
+                            <h5 class="mb-0"><i class="bi bi-hourglass-split me-2"></i>Upcoming Deadlines</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="deadlinesList" class="list-group list-group-flush"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-5">
+                    <div class="card dashboard-card mb-4">
+                        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0"><i class="bi bi-box2-heart me-2"></i>Inventory Overview</h5>
+                            <a href="inventory.html" class="btn btn-sm btn-outline-secondary">Open Inventory</a>
+                        </div>
+                        <div class="card-body">
+                            <h6 class="text-muted mb-2">Low Stock Alerts</h6>
+                            <div id="lowStockList" class="list-group list-group-flush mb-3"></div>
+                            <h6 class="text-muted mb-2">Reserved for Upcoming Tasks</h6>
+                            <div id="reservedList" class="list-group list-group-flush"></div>
+                        </div>
+                    </div>
+
+                    <div class="card dashboard-card">
+                        <div class="card-header bg-white">
+                            <h5 class="mb-0"><i class="bi bi-tools me-2"></i>Quick Inventory Actions</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-warning" onclick="mockReorder()"><i class="bi bi-cart-plus me-2"></i>Create Reorder Request</button>
+                                <button class="btn btn-info text-white" onclick="mockReserve()"><i class="bi bi-boxes me-2"></i>Reserve Materials for Tasks</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Simple material mapping per service type
+        const MATERIAL_REQUIREMENTS = {
+            'Banner Printing': { 'Vinyl Roll (1m)': 2, 'Cyan Ink (500ml)': 1, 'Magenta Ink (500ml)': 1, 'Yellow Ink (500ml)': 1, 'Black Ink (500ml)': 1 },
+            'Business Cards': { 'Cardstock (250gsm)': 200, 'Cyan Ink (500ml)': 0.25, 'Magenta Ink (500ml)': 0.25, 'Yellow Ink (500ml)': 0.25, 'Black Ink (500ml)': 0.25 },
+            'Flyers': { 'Paper A4': 500, 'Cyan Ink (500ml)': 0.4, 'Magenta Ink (500ml)': 0.4, 'Yellow Ink (500ml)': 0.4, 'Black Ink (500ml)': 0.4 },
+            'Tarpaulin - 4x6': { 'Tarpaulin Roll (1m)': 3, 'Cyan Ink (500ml)': 1, 'Yellow Ink (500ml)': 1 },
+            'Store Signage': { 'Acrylic Sheet': 2, 'Vinyl Adhesive': 1 },
+            'Vehicle Wrap': { 'Wrap Film (roll)': 2, 'Squeegee': 1 },
+            'Menu Boards': { 'Foam Board': 3, 'Laminating Film': 2 },
+            'Wall Graphics': { 'Vinyl Adhesive': 2, 'Cyan Ink (500ml)': 0.5, 'Yellow Ink (500ml)': 0.5 },
+            'Banner Stand': { 'Banner Stand Kit': 1, 'Vinyl Roll (1m)': 1 }
+        };
+
+        // Seed example inventory if missing
+        const DEFAULT_INVENTORY = [
+            { name: 'Vinyl Roll (1m)', qty: 10, min: 5, unit: 'roll' },
+            { name: 'Tarpaulin Roll (1m)', qty: 6, min: 4, unit: 'roll' },
+            { name: 'Cardstock (250gsm)', qty: 1000, min: 400, unit: 'sheets' },
+            { name: 'Paper A4', qty: 2000, min: 1000, unit: 'sheets' },
+            { name: 'Foam Board', qty: 10, min: 6, unit: 'pcs' },
+            { name: 'Laminating Film', qty: 8, min: 5, unit: 'roll' },
+            { name: 'Wrap Film (roll)', qty: 4, min: 3, unit: 'roll' },
+            { name: 'Banner Stand Kit', qty: 5, min: 3, unit: 'kit' },
+            { name: 'Acrylic Sheet', qty: 6, min: 4, unit: 'sheet' },
+            { name: 'Vinyl Adhesive', qty: 7, min: 5, unit: 'roll' },
+            { name: 'Squeegee', qty: 10, min: 5, unit: 'pcs' },
+            { name: 'Cyan Ink (500ml)', qty: 4, min: 2, unit: 'bottle' },
+            { name: 'Magenta Ink (500ml)', qty: 4, min: 2, unit: 'bottle' },
+            { name: 'Yellow Ink (500ml)', qty: 4, min: 2, unit: 'bottle' },
+            { name: 'Black Ink (500ml)', qty: 6, min: 3, unit: 'bottle' }
+        ];
+
+        function getInventory() {
+            if (!localStorage.getItem('inventory')) {
+                localStorage.setItem('inventory', JSON.stringify(DEFAULT_INVENTORY));
+            }
+            return JSON.parse(localStorage.getItem('inventory')) || [];
+        }
+
+        function saveInventory(items) {
+            localStorage.setItem('inventory', JSON.stringify(items));
+        }
+
+        function loadTasks() {
+            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            const tasksTbody = document.getElementById('tasksTableBody');
+            const deadlinesList = document.getElementById('deadlinesList');
+
+            // Consider orders with an assignee as tasks for the clerk team
+            const tasks = orders.filter(o => (o.assignedTo && o.assignedTo.trim() !== ''));
+
+            const sorted = tasks.slice().sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+
+            tasksTbody.innerHTML = sorted.map(t => `
+                <tr>
+                    <td>${t.orderId}</td>
+                    <td>${t.customerName}</td>
+                    <td>${t.serviceType}</td>
+                    <td>${new Date(t.dueDate).toLocaleDateString()}</td>
+                    <td><span class="badge ${statusToBadge(t.status)}">${t.status}</span></td>
+                </tr>
+            `).join('');
+
+            deadlinesList.innerHTML = sorted.map(t => `
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>${t.orderId}</strong> — ${t.serviceType}
+                        <div class="small text-muted">${t.customerName}</div>
+                    </div>
+                    <div class="text-end">
+                        <div class="small">Due: <strong>${new Date(t.dueDate).toLocaleDateString()}</strong></div>
+                        <span class="badge ${statusToBadge(t.status)}">${t.status}</span>
+                    </div>
+                </div>
+            `).join('');
+
+            // Compute reserved materials based on upcoming tasks (next 7 days)
+            const now = new Date();
+            const nextWeek = new Date(now.getTime() + 7*24*60*60*1000);
+            const upcoming = sorted.filter(t => {
+                const d = new Date(t.dueDate);
+                return !isNaN(d) && d <= nextWeek;
+            });
+            const reserved = {};
+            for (const task of upcoming) {
+                const req = MATERIAL_REQUIREMENTS[task.serviceType];
+                if (!req) continue;
+                for (const [material, qty] of Object.entries(req)) {
+                    reserved[material] = (reserved[material] || 0) + qty;
+                }
+            }
+
+            const reservedList = document.getElementById('reservedList');
+            if (Object.keys(reserved).length === 0) {
+                reservedList.innerHTML = '<div class="list-group-item">No reservations needed for the next 7 days.</div>';
+            } else {
+                reservedList.innerHTML = Object.entries(reserved).map(([name, qty]) => `
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>${name}</span>
+                        <span class="badge bg-info">${formatQty(qty)}</span>
+                    </div>
+                `).join('');
+            }
+
+            // Low stock list based on current inventory
+            const inventory = getInventory();
+            const low = inventory.filter(i => i.qty <= i.min);
+            const lowStockList = document.getElementById('lowStockList');
+            lowStockList.innerHTML = (low.length ? low : [{ name: 'All items above minimum levels', qty: null, unit: '' }])
+                .map(i => i.qty === null ? `
+                    <div class="list-group-item">All items above minimum levels</div>
+                ` : `
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>${i.name}</strong>
+                            <div class="small text-muted">Min: ${i.min} ${i.unit}</div>
+                        </div>
+                        <span class="badge bg-danger">${i.qty} ${i.unit}</span>
+                    </div>
+                `).join('');
+        }
+
+        function statusToBadge(status) {
+            const map = {
+                'Initial Review': 'badge bg-info',
+                'Design Phase': 'badge bg-primary',
+                'Customer Review': 'badge bg-warning',
+                'Revision': 'badge bg-secondary',
+                'Final Approval': 'badge bg-success',
+                'In Production': 'badge bg-primary',
+                'Quality Check': 'badge bg-info',
+                'Ready for Installation': 'badge bg-success',
+                'Ready for Pickup': 'badge bg-success',
+                'Delivered': 'badge bg-dark',
+                'Completed': 'badge bg-secondary',
+                'Cancelled': 'badge bg-danger'
+            };
+            return map[status] || 'badge bg-secondary';
+        }
+
+        function formatQty(q) {
+            return (Math.round(q * 100) / 100).toString();
+        }
+
+        function mockReorder() {
+            alert('Reorder request created for low stock items. (Demo)');
+        }
+
+        function mockReserve() {
+            const inv = getInventory();
+            // No real reservation; just a confirmation for demo purposes
+            saveInventory(inv);
+            alert('Materials reserved for upcoming tasks. (Demo)');
+        }
+
+        document.addEventListener('DOMContentLoaded', loadTasks);
+    </script>
+</body>
+</html>
+
+

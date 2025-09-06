@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Inventory Management | Galit Digital Printing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="d-flex">
+        <!-- Sidebar with same structure -->
+        <div class="d-flex flex-column flex-shrink-0 p-3 bg-white shadow" style="width: 280px; height: 100vh;">
+            <a href="../index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none">
+                <span class="fs-4 text-success">Clerk Portal</span>
+            </a>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link text-dark">
+                        <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="orders.html" class="nav-link text-dark">
+                        <i class="bi bi-list-check me-2"></i>All Orders
+                    </a>
+                </li>
+                <li>
+                    <a href="create_order.html" class="nav-link text-dark">
+                        <i class="bi bi-plus-circle me-2"></i>Create Job Order
+                    </a>
+                </li>
+                <li>
+                    <a href="ai_insights.html" class="nav-link text-dark">
+                        <i class="bi bi-robot me-2"></i>AI Recommendations
+                    </a>
+                </li>
+                <li>
+                    <a href="tasks.html" class="nav-link text-dark">
+                        <i class="bi bi-person-workspace me-2"></i>Assigned Tasks
+                    </a>
+                </li>
+                <li>
+                    <a href="inventory.html" class="nav-link active">
+                        <i class="bi bi-box-seam me-2"></i>Inventory
+                    </a>
+                </li>
+            </ul>
+            <hr>
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
+                    <img src="../assets/images/avatar-placeholder.png" alt="Clerk" width="32" height="32" class="rounded-circle me-2">
+                    <strong>Clerk Name</strong>
+                </a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="container-fluid py-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>Inventory Management</h2>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#reorderModal">
+                        <i class="bi bi-cart-plus me-2"></i>Reorder Items
+                    </button>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addItemModal">
+                        <i class="bi bi-plus-circle me-2"></i>Add New Item
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stock Alerts -->
+            <div class="alert alert-danger mb-4" role="alert">
+                <h5><i class="bi bi-exclamation-triangle me-2"></i>Low Stock Alerts</h5>
+                <ul class="mb-0">
+                    <li>Cyan Ink - 2 units remaining (Minimum: 5)</li>
+                    <li>A4 Photo Paper - 50 sheets remaining (Minimum: 100)</li>
+                </ul>
+            </div>
+
+            <!-- Inventory Categories -->
+            <div class="row g-4 mb-4">
+                <div class="col-md-3">
+                    <div class="card dashboard-card">
+                        <div class="card-body">
+                            <h6>Printing Supplies</h6>
+                            <div class="dashboard-stat text-primary">12</div>
+                            <small>3 low stock</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card dashboard-card">
+                        <div class="card-body">
+                            <h6>Paper Products</h6>
+                            <div class="dashboard-stat text-success">8</div>
+                            <small>All well-stocked</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card dashboard-card">
+                        <div class="card-body">
+                            <h6>Banner Materials</h6>
+                            <div class="dashboard-stat text-warning">5</div>
+                            <small>1 needs reorder</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card dashboard-card">
+                        <div class="card-body">
+                            <h6>Equipment</h6>
+                            <div class="dashboard-stat text-info">15</div>
+                            <small>All operational</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inventory Table -->
+            <div class="card dashboard-card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Item Code</th>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Current Stock</th>
+                                    <th>Min Level</th>
+                                    <th>Status</th>
+                                    <th>Last Updated</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="table-danger">
+                                    <td>INK-001</td>
+                                    <td>Cyan Ink</td>
+                                    <td>Printing Supplies</td>
+                                    <td>2 units</td>
+                                    <td>5 units</td>
+                                    <td><span class="badge bg-danger">Critical</span></td>
+                                    <td>Today</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#reorderModal">Reorder</button>
+                                        <button class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#historyModal">History</button>
+                                    </td>
+                                </tr>
+                                <!-- More inventory rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Item Modal -->
+    <div class="modal fade" id="addItemModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Inventory Item</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Item Name</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Category</label>
+                            <select class="form-select" required>
+                                <option>Printing Supplies</option>
+                                <option>Paper Products</option>
+                                <option>Banner Materials</option>
+                                <option>Equipment</option>
+                            </select>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label class="form-label">Initial Stock</label>
+                                <input type="number" class="form-control" required>
+                            </div>
+                            <div class="col">
+                                <label class="form-label">Minimum Level</label>
+                                <input type="number" class="form-control" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Add Item</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reorder Modal -->
+    <div class="modal fade" id="reorderModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reorder Items</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Select Items to Reorder</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" checked>
+                                <label class="form-check-label">Cyan Ink (Critical)</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" checked>
+                                <label class="form-check-label">A4 Photo Paper (Low)</label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Order Quantity</label>
+                            <input type="number" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Supplier</label>
+                            <select class="form-select" required>
+                                <option>Main Supplier Co.</option>
+                                <option>Backup Supplier Ltd.</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Place Order</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Job Order | Galit Digital Printing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="d-flex flex-column flex-shrink-0 p-3 bg-white shadow" style="width: 280px; height: 100vh;">
+            <a href="../index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none">
+                <span class="fs-4 text-success">Clerk Portal</span>
+            </a>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link text-dark">
+                        <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="orders.html" class="nav-link text-dark">
+                        <i class="bi bi-list-check me-2"></i>All Orders
+                    </a>
+                </li>
+                <li>
+                    <a href="create_order.html" class="nav-link active">
+                        <i class="bi bi-plus-circle me-2"></i>Create Job Order
+                    </a>
+                </li>
+                <li>
+                    <a href="ai_insights.html" class="nav-link text-dark">
+                        <i class="bi bi-robot me-2"></i>AI Recommendations
+                    </a>
+                </li>
+                <li>
+                    <a href="tasks.html" class="nav-link text-dark">
+                        <i class="bi bi-person-workspace me-2"></i>Assigned Tasks
+                    </a>
+                </li>
+                <li>
+                    <a href="inventory.html" class="nav-link text-dark">
+                        <i class="bi bi-box-seam me-2"></i>Inventory
+                    </a>
+                </li>
+            </ul>
+            <hr>
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
+                    <img src="../assets/images/avatar-placeholder.png" alt="Clerk" width="32" height="32" class="rounded-circle me-2">
+                    <strong>Clerk Name</strong>
+                </a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="container-fluid py-4">
+            <h2 class="mb-4">Create New Job Order</h2>
+            
+            <div class="card">
+                <div class="card-body">
+                    <form id="jobOrderForm" onsubmit="handleSubmit(event)">
+                        <!-- Customer Information -->
+                        <h5 class="mb-3">Customer Information</h5>
+                        <div class="row mb-4">
+                            <div class="col-md-4">
+                                <label class="form-label">Customer Name*</label>
+                                <input type="text" class="form-control" name="customerName" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Email*</label>
+                                <input type="email" class="form-control" name="email" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Phone*</label>
+                                <input type="tel" class="form-control" name="phone" required>
+                            </div>
+                        </div>
+
+                        <!-- Order Details -->
+                        <h5 class="mb-3">Order Details</h5>
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label">Service Type*</label>
+                                <select class="form-select" name="serviceType" required>
+                                    <option value="">Select service...</option>
+                                    <option value="banner">Banner Printing</option>
+                                    <option value="businessCard">Business Cards</option>
+                                    <option value="flyer">Flyers</option>
+                                    <option value="brochure">Brochures</option>
+                                    <option value="poster">Posters</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Due Date*</label>
+                                <input type="date" class="form-control" name="dueDate" required>
+                            </div>
+                        </div>
+
+                        <!-- Specifications -->
+                        <h5 class="mb-3">Specifications</h5>
+                        <div class="row mb-4">
+                            <div class="col-md-4">
+                                <label class="form-label">Size*</label>
+                                <input type="text" class="form-control" name="size" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Quantity*</label>
+                                <input type="number" class="form-control" name="quantity" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Material*</label>
+                                <input type="text" class="form-control" name="material" required>
+                            </div>
+                        </div>
+
+                        <!-- Additional Details -->
+                        <div class="mb-4">
+                            <label class="form-label">Additional Notes</label>
+                            <textarea class="form-control" name="notes" rows="3"></textarea>
+                        </div>
+
+                        <!-- Payment Information -->
+                        <h5 class="mb-3">Payment Information</h5>
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label">Payment Method*</label>
+                                <select class="form-select" name="paymentMethod" required>
+                                    <option value="">Select payment method...</option>
+                                    <option value="cash">Cash</option>
+                                    <option value="card">Credit/Debit Card</option>
+                                    <option value="gcash">GCash</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Amount*</label>
+                                <input type="number" class="form-control" name="amount" required>
+                            </div>
+                        </div>
+
+                        <div class="text-end">
+                            <button type="button" class="btn btn-secondary me-2" onclick="window.location.href='dashboard.html'">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Create Job Order</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(event.target);
+            const orderData = Object.fromEntries(formData.entries());
+            
+            // Generate order ID
+            orderData.orderId = `#${new Date().getFullYear()}-${String(Math.floor(Math.random() * 1000)).padStart(3, '0')}`;
+            
+            // Save to localStorage (in real app, this would be sent to a server)
+            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            orders.push({
+                ...orderData,
+                status: 'Initial Review',
+                createdDate: new Date().toISOString()
+            });
+            localStorage.setItem('orders', JSON.stringify(orders));
+            
+            // Show success message and redirect
+            alert('Job order created successfully!');
+            window.location.href = 'orders.html';
+        }
+    </script>
+</body>
+</html>
